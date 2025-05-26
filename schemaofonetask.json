@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://todoapp.com/product.schema.json",
+  "$id": "https://todoapp.com/singletask.schema.json",
   "title": "Task input data check",
-  "description": "A json schema for the todoapp",
+  "description": "A JSON schema of single task for the todoapp",
   "type": "object",
   "properties": {
     "taskId": {
@@ -18,7 +18,8 @@
 
     "dateCreated": {
       "description": "The date and time of the creation of task",
-      "type": "date-time"
+      "type": "string",
+      "format": "date-time"
     },
 
     "completedTag": {

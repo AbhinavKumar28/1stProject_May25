@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://todoapp.com/all_tasks.schema.json",
+  "title": "Task List Schema",
+  "description": "A JSON schema of all tasks for the todoapp",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "taskId": {
+        "description": "The unique identifier for a task",
+        "type": "integer"
+      },
+      "taskName": {
+        "description": "Description of the task",
+        "type": "string",
+        "minLength": 1
+      },
+      "dateCreated": {
+        "description": "The date and time of the creation of task",
+        "type": "string",
+        "format": "date-time"
+      },
+      "completedTag": {
+        "description": "Tag for the task whether completed (0) or incomplete (1)",
+        "type": "integer"
+      }
+    },
+    "required": ["taskId", "taskName", "dateCreated", "completedTag"]
+  }
+}
