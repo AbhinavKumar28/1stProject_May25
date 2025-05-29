@@ -1,0 +1,15 @@
+#root {
+  max-width: 1350px;
+  width: 30vw;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  /* background: url(D:\Acadly\1stProject_May25\todoapp\src\assets\images\main-image.png);
+  background-repeat: no-repeat; */
+  /* background-size: cover; */
+  /* color: #4393E4; */
+}
+
+h1{
+    color: #4393E4;
+}

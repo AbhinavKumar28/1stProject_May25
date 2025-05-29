@@ -1,0 +1,27 @@
+.completed_task_heading{
+    font-size: large;
+}
+.checkbox{
+    height: 20px;
+    width: 20px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    margin-right: 12px;
+}
+.checkbox:hover{
+    background-color: #12467B;
+}
+.button {
+    color: #97C3F0;
+    text-align: center;
+    margin-top: 20px;
+    border: 1px solid #185EA5;
+
+}
+.button:hover {
+  color: #97C3F0;
+  background-color: #12467B;
+}
+.label{
+    text-decoration: line-through;
+}
