@@ -11,6 +11,21 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --background-color: white;
+  --text-color:  #6c63ff;
+  --border-color: #6c63ff;
+}
+
+[data-theme='light']{
+  --background-color: white;
+  --text-color: black;
+  --border-color: #6c63ff;
+}
+
+[data-theme='dark']{
+  --background-color: black;
+  --text-color: white;
+  --border-color: white;
 }
 
 a {

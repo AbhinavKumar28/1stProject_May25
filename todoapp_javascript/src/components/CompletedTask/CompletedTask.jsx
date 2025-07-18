@@ -1,17 +1,18 @@
-import styles from './CompletedTask.module.css';
-function CompletedTasks(){ 
+import styles from "./CompletedTask.module.css";
+function CompletedTasks() {
     return (
         <>
             <p className={styles.completed_task_heading}>
                 Completed Tasks
             </p>
-            <div style={{maxHeight: 200, overflow: 'auto'}}>
+            <div style={{ maxHeight: 200, overflow: "auto" }}>
                 <div>
                     <label className={styles.label}>
                         <input
                             type="checkbox"
                             checked="true"
                             className={styles.checkbox}
+
                         // onChange={handleCheckboxChange}
                         />
                         Subscribe to newsletter
@@ -26,6 +27,7 @@ function CompletedTasks(){
                             type="checkbox"
                             checked="true"
                             className={styles.checkbox}
+
                         // onChange={handleCheckboxChange}
                         />
                         Subscribe to newsletter
@@ -40,6 +42,7 @@ function CompletedTasks(){
                             type="checkbox"
                             checked="true"
                             className={styles.checkbox}
+
                         // onChange={handleCheckboxChange}
                         />
                         Subscribe to newsletter
@@ -54,6 +57,7 @@ function CompletedTasks(){
                             type="checkbox"
                             checked="true"
                             className={styles.checkbox}
+
                         // onChange={handleCheckboxChange}
                         />
                         Subscribe to newsletter
@@ -68,6 +72,7 @@ function CompletedTasks(){
                             type="checkbox"
                             checked="true"
                             className={styles.checkbox}
+
                         // onChange={handleCheckboxChange}
                         />
                         Subscribe to newsletter
@@ -82,6 +87,7 @@ function CompletedTasks(){
                             type="checkbox"
                             checked="true"
                             className={styles.checkbox}
+
                         // onChange={handleCheckboxChange}
                         />
                         Subscribe to newsletter
@@ -90,8 +96,8 @@ function CompletedTasks(){
                         delete
                     </button>
                 </div>
-            </div>    
+            </div>
         </>
-    )
+    );
 }
-export default CompletedTasks
+export default CompletedTasks;

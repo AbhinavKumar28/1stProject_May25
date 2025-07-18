@@ -11,5 +11,8 @@
 }
 
 h1{
-    color: #4393E4;
+    color: var(--text-color);
+}
+body{
+  background-color: var(--background-color);
 }

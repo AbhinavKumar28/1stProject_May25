@@ -1,0 +1,211 @@
+.noteChild {
+  /* position: absolute;
+  top: 0px;
+  left: calc(50% - 262.5px); */
+  width: 26px;
+  height: 26px;
+  border-radius: 2px;
+  border: 1px solid #6c63ff;
+  background-color: var(--background-color);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  display: inline;
+  outline: none;
+  position: relative;
+}
+
+/* Checkmark using a pseudo-element */
+.noteChild:checked::after {
+  content: "✓"; /* Unicode tick */
+  /* position: absolute;
+  top: 1px;
+  left: 6px; */
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Change background when checked */
+.noteChild:checked {
+  background-color: #6c63ff;
+  border-color: #6c63ff;
+}
+
+.note1 {
+  	/* position: absolute;
+  	top: 3px;
+  	left: calc(50% - 219.5px); */
+  	line-height: 100%;
+  	text-transform: uppercase;
+  	font-weight: 500;
+  	/* display: inline; */
+  	/* width: 42px; */
+	color: var(--text-color);
+}
+.optionsChild {
+  	width: 18px;
+  	position: relative;
+  	height: 18px;
+	display: none;
+}
+.trashSvgrepoCom1Icon {
+  	width: 18px;
+  	/* position: relative; */
+  	height: 18px;
+  	/* overflow: hidden; */
+  	/* flex-shrink: 0; */
+	display: inline;
+}
+.options {
+  	/* position: absolute;
+  	top: 4px;
+  	left: 463px; */
+  	/* display: flex;
+  	flex-direction: row; */
+  	align-items: center;
+  	/* justify-content: flex-end; */
+  	padding: 0px 8px;
+  	gap: 10px;
+	/* text-align: end; */
+}
+.note {
+  	/* position: absolute; */
+  	/* top: 0px; */
+  	/* left: calc(50% - 260px); */
+  	width: 525px;
+  	height: 26px;
+}
+.note:hover .optionsChild{
+	display:inline;
+}
+.noteItem {
+  	position: absolute;
+  	top: 0px;
+  	left: calc(50% - 231.5px);
+  	border-radius: 2px;
+  	background-color: #6c63ff;
+  	border: 1px solid #6c63ff;
+  	box-sizing: border-box;
+  	width: 26px;
+  	height: 26px;
+}
+.noteInner {
+  	position: absolute;
+  	top: 18.65px;
+  	left: 11px;
+  	border-top: 2px solid #f7f7f7;
+  	border-left: 2px solid #f7f7f7;
+  	box-sizing: border-box;
+  	width: 7px;
+  	height: 13.7px;
+  	transform:  rotate(-135.6deg);
+  	transform-origin: 0 0;
+}
+.note21 {
+  	position: absolute;
+  	top: 3px;
+  	left: calc(50% - 188.5px);
+  	text-decoration: line-through;
+  	line-height: 100%;
+  	text-transform: uppercase;
+  	display: inline-block;
+  	width: 420px;
+}
+.vectorIcon {
+  	width: 13px;
+  	position: relative;
+  	height: 13px;
+}
+.options1 {
+  	position: absolute;
+  	top: 4px;
+  	left: 463px;
+  	display: none;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	padding: 0px 8px;
+  	gap: 10px;
+}
+.note2 {
+  	position: absolute;
+  	top: 60px;
+  	left: calc(50% - 260px);
+  	width: 463px;
+  	height: 26px;
+  	color: rgba(37, 37, 37, 0.5);
+}
+.rectangleDiv {
+  	position: absolute;
+  	top: 0px;
+  	left: calc(50% - 231.5px);
+  	border-radius: 2px;
+  	border: 1px solid #6c63ff;
+  	box-sizing: border-box;
+  	width: 26px;
+  	height: 26px;
+}
+.note31 {
+  	position: absolute;
+  	top: 3px;
+  	left: calc(50% - 188.5px);
+  	line-height: 100%;
+  	text-transform: uppercase;
+  	font-weight: 500;
+  	display: inline-block;
+  	width: 420px;
+	color: var(--text-color);
+}
+.note3 {
+  	position: absolute;
+  	top: 120px;
+  	left: calc(50% - 260px);
+  	width: 463px;
+  	height: 26px;
+}
+.listChild {
+  	position: absolute;
+  	top: 42.5px;
+  	left: -0.5px;
+  	border-top: 1px solid #6c63ff;
+  	box-sizing: border-box;
+  	width: 521px;
+  	height: 1px;
+  	opacity: 0.5;
+}
+.listItem {
+  	position: absolute;
+  	top: 102.5px;
+  	left: -0.5px;
+  	border-top: 1px solid #6c63ff;
+  	box-sizing: border-box;
+  	width: 521px;
+  	height: 1px;
+  	opacity: 0.5;
+}
+.image4Icon {
+  	position: absolute;
+  	top: 5px;
+  	left: 334px;
+  	width: 39.4px;
+  	height: 39.4px;
+  	object-fit: contain;
+}
+.list {
+  	position: absolute;
+  	top: 30px;
+  	left: 115px;
+  	width: 520px;
+  	height: 545px;
+}
+.body {
+  	width: 100%;
+  	position: relative;
+  	height: 575px;
+  	text-align: left;
+  	font-size: 20px;
+  	color: #252525;
+  	font-family: Kanit;
+}
+
