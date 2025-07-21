@@ -21,6 +21,22 @@ function BothTasks({ tasks, setTasks }) {
                 {/* <img className={styles.addButtonIcon} alt="" src="Add button.svg" /> */}
                 <div className={styles.list}>
                     <ul>
+                        {/* {(typeof tasks !== "undefined") && console.log(tasks)} */}
+                        {(typeof tasks !== "undefined") &&
+                            tasks.map((eachItem, index) => {
+                                return (
+                                    <div key={index} className={styles.note}>
+
+                                        <input type="checkbox" className={styles.noteChild} name="" id="" />
+                                        <span className={styles.note1}>{eachItem}</span>
+                                        <span className={styles.options}>
+                                            <EditIcon tasks={tasks} setTasks={setTasks} index={index} />
+                                            <img className={styles.trashSvgrepoCom1Icon} aria-hidden onClick={() => removeTask(index)} alt="" src="/Assets/trash-svgrepo-com 1.svg" />
+                                        </span>
+                                    </div>);
+                            })
+                        }
+                        {/* {if (typeof tasks !== "undefined")
                         {tasks.map((eachItem, index) => {
                             return (
                                 <div key={index} className={styles.note}>
@@ -32,7 +48,7 @@ function BothTasks({ tasks, setTasks }) {
                                         <img className={styles.trashSvgrepoCom1Icon} aria-hidden onClick={() => removeTask(index)} alt="" src="/Assets/trash-svgrepo-com 1.svg" />
                                     </span>
                                 </div>);
-                        })}
+                        })}} */}
                     </ul>
                     {/* <div className={styles.note}>
                         <div className={styles.noteChild} />

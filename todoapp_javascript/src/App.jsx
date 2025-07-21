@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
@@ -17,17 +17,36 @@ function App() {
 
     // const [count, setCount] = useState(0)
     const [tasks, setTasks] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
+    const [filteredTasks, setFilteredTasks] = useState([]);
 
+    useEffect(() => {
+        let filter = [...tasks];
+
+        // console.log("filter", filter);
+        if (searchInput !== "") {
+            filter = filter.filter(el => {
+
+
+                let item = el.toLowerCase();
+
+                return item.includes(searchInput.toLowerCase());
+            });
+        }
+
+        // console.log("filter1", filter);
+        setFilteredTasks([...filter]);
+    }, [tasks, searchInput]);
     return (
         <>
             {/* <div className="background-color"> */}
             <Heading/>
             {/* <h1 >ToDo List</h1> */}
-            <TaskInputForm />
+            <TaskInputForm searchInput={searchInput} setSearchInput={setSearchInput}/>
             {/* <IncompletedTasks />
             <CompletedTasks /> */}
             <AddNewNote tasks={tasks} setTasks={setTasks}/>
-            <BothTasks tasks={tasks} setTasks={setTasks}/>
+            <BothTasks tasks={filteredTasks} setTasks={setTasks}/>
             {/* </div> */}
         </>
     );

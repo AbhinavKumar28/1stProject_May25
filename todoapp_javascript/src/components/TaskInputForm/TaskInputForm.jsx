@@ -1,6 +1,7 @@
 import styles from "./TaskInputForm.module.css";
-function TaskInputForm() {
-    const switchTheme = e => {
+import PropTypes from "prop-types";
+function TaskInputForm({ searchInput, setSearchInput }) {
+    const switchTheme = () => {
 
         // console.log(e.target);
         let curTheme = document.querySelector("body").getAttribute("data-theme");
@@ -13,9 +14,9 @@ function TaskInputForm() {
             document.getElementById("toggle").setAttribute("src", "/Assets/Color Scheme.svg");
         }
     };
-    const searchButton = e => {
-
-    }
+    const searchHandler = event => {
+        setSearchInput(event.target.value);
+    };
 
     return (
         <>
@@ -39,7 +40,7 @@ function TaskInputForm() {
                         </button>
                     </div> */}
                     <div className={styles.search}>
-                        <input type="text" placeholder="Search note..." className={styles.searchNote}/>
+                        <input onChange={searchHandler} value={searchInput} type="text" placeholder="Search note..." className={styles.searchNote}/>
 
                         {/* <textarea className={styles.taskinput__textarea} name="Task-Input" id="task-input" required placeholder='Enter the task...'></textarea><input type="text" name="search-note" className={styles.searchNote} id="search-note" placeholder="Search note..."/> */}
 
@@ -47,7 +48,7 @@ function TaskInputForm() {
                     </div>
                     <div className={styles.select}>
                         <div className={styles.content}>
-                            <div id="searchBtn" onClick= {searchButton} className={styles.all} aria-hidden>all</div>
+                            <div id="searchBtn" className={styles.all} aria-hidden>all</div>
                             {/* <img className={styles.chevronTopIcon} alt="" src="chevron-top.png" /> */}
                         </div>
                     </div>
@@ -64,6 +65,10 @@ function TaskInputForm() {
         </>
     );
 }
+TaskInputForm.propTypes = {
+    searchInput: PropTypes.string.isRequired,
+    setSearchInput: PropTypes.func.isRequired
+};
 
 // console.log(styles.card)
 export default TaskInputForm;
