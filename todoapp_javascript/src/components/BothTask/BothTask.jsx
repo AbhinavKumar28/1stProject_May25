@@ -1,9 +1,11 @@
+import EditIcon from "../EditIcon/EditIcon";
 import styles from "./BothTask.module.css";
 import PropTypes from "prop-types";
 function BothTasks({ tasks, setTasks }) {
-    const editTask = i => {
 
-    };
+    // const editTask = i => {
+
+    // };
 
     // const  = this.props;
     const removeTask = i => {
@@ -26,7 +28,7 @@ function BothTasks({ tasks, setTasks }) {
                                     <input type="checkbox" className={styles.noteChild} name="" id="" />
                                     <span className={styles.note1}>{eachItem}</span>
                                     <span className={styles.options}>
-                                        <img className={styles.optionsChild} alt="" aria-hidden onClick={() => editTask(index)} src="/Assets/Frame 6.svg" />
+                                        <EditIcon tasks={tasks} setTasks={setTasks} index={index} />
                                         <img className={styles.trashSvgrepoCom1Icon} aria-hidden onClick={() => removeTask(index)} alt="" src="/Assets/trash-svgrepo-com 1.svg" />
                                     </span>
                                 </div>);

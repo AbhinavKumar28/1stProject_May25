@@ -1,0 +1,104 @@
+.addButtonIcon {
+width: 100%;
+max-width: 100%;
+overflow: hidden;
+height: 50px;
+position: fixed;
+bottom: 40px;
+/* right: 5px; */
+left: 500px;
+}
+h1{
+    color: var(--text-color);
+}
+/* .modal{
+    margin-top: 0px;
+    padding-top: 0px;
+} */
+.modal {
+  /* width: 100%; */
+  /* max-width: 500px; */
+  /* margin: auto; */
+  padding: 10px;
+  background: var(--background-color);
+  /* border-radius: 8px; */
+}
+.searchNote {
+  	position: relative;
+  	font-size: 20px;
+  	line-height: 100%;
+	height: 100%;
+  	font-weight: 500;
+  	font-family: Inter;
+  	color: #c3c1e5;
+  	text-align: left;
+	background-color: var(--background-color);
+	border: none;
+}
+.search {
+  	border-radius: 5px;
+  	border: 1px solid #6c63ff;
+  	box-sizing: border-box;
+  	height: 38px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	padding: 8px 16px;
+  	gap: 436px;
+    margin-bottom: 30px;
+    background-color: var(--background-color);
+}
+.newNoteHeading {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  width: 100%;          
+  text-align: center;   
+  background-color: var(--background-color);
+}
+/* .newNoteHeading h1{
+    margin-top: 10px !important;
+} */
+h1 {
+  text-align: center;
+  color: var(--text-color);
+}
+/* 
+.newNoteHeading{
+    /* display: flex;
+    justify-content: center; */
+    /* text-align: center; */
+.button{
+  background-color: var(--background-color);
+  color: #6c63ff;
+  border: 1px solid #6c63ff ;
+}
+.button1{
+    margin-left: auto;
+    color: white;
+    background-color: #6c63ff;
+}
+/* .modal .content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+} */
+.content {
+  display: flex;
+  padding: 1rem;
+  background-color: var(--background-color);
+}
+.popup-content {
+  background-color: var(--background-color);
+  padding: 0px;
+}
+.optionsChild {
+  	width: 18px;
+  	position: relative;
+  	height: 18px;
+	display:inline;
+}
+.note:hover .optionsChild{
+	display:inline;
+}
