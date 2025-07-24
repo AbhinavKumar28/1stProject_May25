@@ -1,6 +1,8 @@
 import EditIcon from "../EditIcon/EditIcon";
 import styles from "./BothTask.module.css";
 import PropTypes from "prop-types";
+import React from "react";
+
 function BothTasks({ tasks, setTasks }) {
 
     // const editTask = i => {
@@ -20,20 +22,25 @@ function BothTasks({ tasks, setTasks }) {
             <div className={styles.body}>
                 {/* <img className={styles.addButtonIcon} alt="" src="Add button.svg" /> */}
                 <div className={styles.list}>
-                    <ul>
+                    <ul className="noteList">
                         {/* {(typeof tasks !== "undefined") && console.log(tasks)} */}
                         {(typeof tasks !== "undefined") &&
                             tasks.map((eachItem, index) => {
                                 return (
-                                    <div key={index} className={styles.note}>
+                                    <React.Fragment key={index} className="lastChild">
+                                        <li className={styles.note}>
 
-                                        <input type="checkbox" className={styles.noteChild} name="" id="" />
-                                        <span className={styles.note1}>{eachItem}</span>
-                                        <span className={styles.options}>
-                                            <EditIcon tasks={tasks} setTasks={setTasks} index={index} />
-                                            <img className={styles.trashSvgrepoCom1Icon} aria-hidden onClick={() => removeTask(index)} alt="" src="/Assets/trash-svgrepo-com 1.svg" />
-                                        </span>
-                                    </div>);
+                                            <input type="checkbox" className={styles.noteChild} name="" id="" />
+                                            <span className={styles.note1}>{eachItem}</span>
+                                            <span className={styles.options}>
+                                                <EditIcon tasks={tasks} setTasks={setTasks} index={index} />
+                                                <img className={styles.trashSvgrepoCom1Icon} aria-hidden onClick={() => removeTask(index)} alt="" src="/Assets/trash-svgrepo-com 1.svg" />
+                                            </span>
+                                            <hr className={styles.noteDivider} />
+                                        </li>
+                                        {(index !== (tasks.length - 1)) &&
+                                        <hr className={styles.noteDivider} />}
+                                    </React.Fragment>);
                             })
                         }
                         {/* {if (typeof tasks !== "undefined")
