@@ -1,17 +1,22 @@
-import EditIcon from "../EditIcon/EditIcon";
+import EditIcon from "../EditIcon/EditIcon.tsx";
 import styles from "./BothTask.module.css";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import React from "react";
+import type {JSX} from "react";
+type BothTasksProps = {
+  tasks: string[];
+  setTasks: React.Dispatch<React.SetStateAction<string[]>>;
+};
 
-function BothTasks({ tasks, setTasks }) {
+function BothTasks({ tasks, setTasks }:BothTasksProps):JSX.Element {
 
     // const editTask = i => {
 
     // };
 
     // const  = this.props;
-    const removeTask = i => {
-        const removedTask = tasks.filter((_, index) => index != i);
+    const removeTask = (i:number):void => {
+        const removedTask:string[] = tasks.filter((_:string, index:number):boolean => index != i);
 
         setTasks(removedTask);
         localStorage.setItem("lists", JSON.stringify(removedTask));
@@ -25,9 +30,9 @@ function BothTasks({ tasks, setTasks }) {
                     <ul className="noteList">
                         {/* {(typeof tasks !== "undefined") && console.log(tasks)} */}
                         {(typeof tasks !== "undefined") &&
-                            tasks.map((eachItem, index) => {
+                            tasks.map((eachItem:string, index:number):JSX.Element => {
                                 return (
-                                    <React.Fragment key={index}>
+                                    <React.Fragment key={index} >
                                         <li className={styles.note}>
 
                                             <input type="checkbox" className={styles.noteChild} name="" id="" />
@@ -110,8 +115,8 @@ function BothTasks({ tasks, setTasks }) {
         </>
     );
 }
-BothTasks.propTypes = {
-    tasks: PropTypes.array.isRequired, // or PropTypes.arrayOf(PropTypes.object)
-    setTasks: PropTypes.func.isRequired
-};
+// BothTasks.propTypes = {
+//     tasks: PropTypes.array.isRequired, // or PropTypes.arrayOf(PropTypes.object)
+//     setTasks: PropTypes.func.isRequired
+// };
 export default BothTasks;

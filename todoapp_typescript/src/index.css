@@ -11,6 +11,21 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --background-color: white;
+  --text-color:  black;
+  --border-color: #6c63ff;
+}
+
+[data-theme='light']{
+  --background-color: white;
+  --text-color: black;
+  --border-color: #6c63ff;
+}
+
+[data-theme='dark']{
+  --background-color: black;
+  --text-color: white;
+  --border-color: white;
 }
 
 a {
@@ -30,6 +45,10 @@ body {
   min-height: 100vh;
 }
 
+.note:hover .optionsChild{
+	display:inline;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -47,7 +66,7 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #4393E4;
 }
 button:focus,
 button:focus-visible {

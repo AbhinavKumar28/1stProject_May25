@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import type {JSX} from "react";
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+// import IncompletedTasks from "./components/IncompletedTask/IncompletedTask";
+// import CompletedTasks from "./components/CompletedTask/CompletedTask";
+import TaskInputForm from "./components/TaskInputForm/TaskInputForm.tsx";
+import BothTasks from "./components/BothTask/BothTask.tsx";
+import Heading from "./components/Heading/heading.tsx";
+import AddNewNote from "./components/addNewNote/addNewNote.tsx";
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+// import HeaderImage from './components/HeaderImage/HeaderImage'
+
+function App():JSX.Element {
+
+    // const [count, setCount] = useState(0)
+    const [tasks, setTasks] = useState<string[]>([]);
+    const [searchInput, setSearchInput] = useState<string>("");
+    const [filteredTasks, setFilteredTasks] = useState<string[]>([]);
+
+    useEffect(() => {
+        let filter:string[] = [...tasks];
+
+        // console.log("filter", filter);
+        if ((searchInput !== "") &&(filter.length!==0)) {
+            filter = filter.filter(el => {
+
+                 
+                let item = el.toLowerCase();
+
+                return item.includes(searchInput.toLowerCase());
+            });
+        }
+
+        // console.log("filter1", filter);
+        setFilteredTasks([...filter]);
+    }, [tasks, searchInput]);
+    return (
+        <>
+            {/* <div className="background-color"> */}
+            <Heading/>
+            {/* <h1 >ToDo List</h1> */}
+            <TaskInputForm searchInput={searchInput} setSearchInput={setSearchInput}/>
+            {/* <IncompletedTasks />
+            <CompletedTasks /> */}
+            <AddNewNote tasks={tasks} setTasks={setTasks}/>
+            <BothTasks tasks={filteredTasks} setTasks={setTasks}/>
+            {/* </div> */}
+        </>
+    );
 }
 
-export default App
+export default App;
