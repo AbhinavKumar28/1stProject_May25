@@ -22,12 +22,25 @@ function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
 
         // localStorage.clear();
     }, []);
-    const addTask = ():void => {
+    const addTask = async():Promise<void> => {
+        try {
+            const response= await fetch('http://localhost:3005/todosInsert',{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body:JSON.stringify({todonote:currentTask})
+            });
+            const data = await response.text();
+            console.log(data);
+        }catch (err) {
+            console.error('Error:', err);
+        }
         if (currentTask !== "") {
             let updatedTask:string[] = [...tasks, currentTask];
 
             setTasks(updatedTask);
-            localStorage.setItem("lists", JSON.stringify(updatedTask));
+            // localStorage.setItem("lists", JSON.stringify(updatedTask));
             setCurrentTask("");
         }
     };
