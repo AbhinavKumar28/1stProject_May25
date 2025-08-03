@@ -10,25 +10,30 @@ import TaskInputForm from "./components/TaskInputForm/TaskInputForm.tsx";
 import BothTasks from "./components/BothTask/BothTask.tsx";
 import Heading from "./components/Heading/heading.tsx";
 import AddNewNote from "./components/addNewNote/addNewNote.tsx";
-
+// import { ObjectId } from "mongodb";
+type Task = {
+  _id: string;
+  todonote: string;
+};
 // import HeaderImage from './components/HeaderImage/HeaderImage'
 
 function App():JSX.Element {
 
     // const [count, setCount] = useState(0)
-    const [tasks, setTasks] = useState<string[]>([]);
+    const [tasks, setTasks] = useState<Task[]>([]);
     const [searchInput, setSearchInput] = useState<string>("");
-    const [filteredTasks, setFilteredTasks] = useState<string[]>([]);
+    const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
+
 
     useEffect(() => {
-        let filter:string[] = [...tasks];
+        let filter:Task[] = [...tasks];
 
         // console.log("filter", filter);
         if ((searchInput !== "") &&(filter.length!==0)) {
             filter = filter.filter(el => {
 
                  
-                let item = el.toLowerCase();
+                let item = el.todonote.toLowerCase();
 
                 return item.includes(searchInput.toLowerCase());
             });

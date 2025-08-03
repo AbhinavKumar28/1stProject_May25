@@ -5,30 +5,65 @@ import "reactjs-popup/dist/index.css";
 import type {JSX} from "react";
 // import Popy from "../PopUp/PopUp";
 import { useState, useEffect } from "react";
-type EditIconProps = {tasks:string[], setTasks:React.Dispatch<React.SetStateAction<string[]>>, index:number}
+// import type { ObjectId } from "mongodb";
+type Task = {
+    _id: string,
+    todonote: string
+}
+type EditIconProps = {tasks:Task[], setTasks:React.Dispatch<React.SetStateAction<Task[]>>, index:string}
 function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
 
     // const  = this.props;
 
     //     const [tasks, setTasks] = useState([]);
-    const [currentTask, setCurrentTask] = useState<string>(tasks[index]);
-
+    const foundTask = tasks.find(item=>item._id===index)
+    const [currentTask, setCurrentTask] = useState<string>(foundTask?foundTask.todonote:"");
     useEffect(() => {
-        const storedItem:string| null = localStorage.getItem("lists");
-
-        if (storedItem) {
-            setTasks(JSON.parse(storedItem));
+            const showTask = async(): Promise<void> => {
+                let data: Task[] = []
+                try {
+                    const response= await fetch(`http://localhost:3005/todos`,{
+                        method:"GET",
+                    });
+                    data = await response.json();
+                    console.log("hello",data);
+                    // return data
+                }catch (err) {
+                    console.error('Error:', err);
+                    // return []
+                }
+                if (data) {
+                    setTasks(data);
+                }
+            }
+            showTask()
+        }, []);
+        
+    const editTask = async():Promise<void> => {
+        try {
+            const response= await fetch(`http://localhost:3005/todos/${index}`,{
+                method:"PUT",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body:JSON.stringify({todonote:currentTask})
+            });
+            const data = await response.text();
+            console.log("hello",data);
+        }catch (err) {
+            console.error('Error:', err);
         }
-
-        // localStorage.clear();
-    }, []);
-    const editTask = ():void => {
-        let updatedTask:string[] = [...tasks];
-
         // console.log(typeof (index));
-        updatedTask[index] = currentTask;
-        setTasks(updatedTask);
-        localStorage.setItem("lists", JSON.stringify(updatedTask));
+        const updatedArray:Task[] = tasks.map(item => {
+            if (item._id === index) {
+                
+                return { ...item, todonote: currentTask }; 
+            }
+            return item; 
+        });
+        // updatedTask[index] = currentTask;
+        setTasks(updatedArray);
+        // localStorage.setItem("lists", JSON.stringify(updatedTask));
 
         // setCurrentTask("");
 

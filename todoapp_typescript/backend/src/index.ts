@@ -2,10 +2,30 @@
 //1aEzDJzPiZjePpBC - password
 import Hapi from '@hapi/hapi'
 import './types/hapiMongoPatch'; 
+import HapiMongoDB from 'hapi-mongodb';
 // const Joi = require('@hapi/joi');
-import Joi from 'joi'
-import joiObjectId from 'joi-objectid'
-joiObjectId(Joi)
+// import Joi from 'joi'
+// import joiObjectId from 'joi-objectid'
+// import { request } from 'http';
+import { ObjectId } from "mongodb";
+// const Joi = require('joi');
+// Joi.objectId = require('joi-objectid')(Joi);
+// import JoiImport from 'joi';
+// import joiObjectId from 'joi-objectid';
+
+// // Call joiObjectId with JoiImport to get the extension object
+// const Joi = JoiImport.extend(joiObjectId(JoiImport));
+import JoiImport from 'joi';
+import joiObjectId from 'joi-objectid';
+
+// Mutates Joi to add `objectId` method
+joiObjectId(JoiImport);
+
+// Now you can use `JoiImport.objectId()`
+const Joi = JoiImport;
+
+export default Joi;
+
 /// <reference path="./types/hapi-mongodb.d.ts" />
 
 const init = async () => {
@@ -21,7 +41,7 @@ const init = async () => {
     });
     
     await server.register({
-        plugin: require('hapi-mongodb'),
+        plugin: HapiMongoDB,
         options: {
           url: 'mongodb://localhost:27017/latest_db',
           settings: {
@@ -43,6 +63,22 @@ const init = async () => {
     //         return students;
     //     }
     // });
+
+    server.route({
+        method:"GET",
+        path:"/todos",
+        handler: async (request,h)=>{
+            try {
+                const todos = await request.mongo.db.collection('todoapp').find({}).toArray()
+                // console.log(todos)
+                // console.log(h.response(todos).code(200))
+                return todos
+            }catch (err){
+                console.error(err)
+                return h.response('Error fetching todos').code(500)
+            }
+        }
+    })
     
     // Add a new todonote to the database
     server.route({
@@ -58,101 +94,69 @@ const init = async () => {
         handler: async (request, h) => {
 
             const payload = request.payload as { todonote: string }
-            console.log(payload)
+            
             const status = await request.mongo.db.collection('todoapp').insertOne(payload);
+            console.log("Inserted:", status.insertedId);
+
+            return {
+                _id: status.insertedId,
+                todonote: payload.todonote
+            };
+        }
+    });
+    
+    
+    // Update the details of a todonote
+    server.route({
+        method: 'PUT',
+        path: '/todos/{objid}',
+        options: {
+            validate: {
+                params: Joi.object({
+                    objid: Joi.string().required(),
+                    // todonote:Joi.string
+                })
+            }
+        },
+        handler: async (request, h) => {
+            const {objid}=request.params
+            const id = new ObjectId(String(objid))
+            // const ObjectID = request.mongo.ObjectID;
+
+            const payload = request.payload as { todonote: string }
+
+            const status = await request.mongo.db.collection('todoapp').updateOne({_id:id}, {$set: payload});
+
             return status;
         }
     });
     
-    // // Get a single movie
-    // server.route({
-    //     method: 'GET',
-    //     path: '/movies/{id}',
-    //     handler: async (request, h) => {
-    //         const id = request.params.id
-    //         const ObjectID = request.mongo.ObjectID;
+    // Delete a todonote from the database
+    server.route({
+        method: 'DELETE',
+        path: '/todos/{objid}',
+        options: {
+            validate: {
+                params: Joi.object({
+                    objid: Joi.string().required(),
+                    // todonote:Joi.string
+                })
+            }
+        },
+        handler: async (request, h) => {
+            const {objid}=request.params
+            const id = new ObjectId(String(objid))
+            // const ObjectID = request.mongo.ObjectID;
 
-    //         const movie = await request.mongo.db.collection('movies').findOne({_id: new ObjectID(id)},{projection:{title:1,plot:1,cast:1,year:1, released:1}});
-            
-    //         return movie;
-    //     }
-    // });
+            const payload = request.payload
+
+            const status = await request.mongo.db.collection('todoapp').deleteOne({_id: id});
+
+            return status;
+        }
+    });
     
-    // // Update the details of a movie
-    // server.route({
-    //     method: 'PUT',
-    //     path: '/movies/{id}',
-    //     options: {
-    //         validate: {
-    //             params: Joi.object({
-    //                 id: Joi.objectId()
-    //             })
-    //         }
-    //     },
-    //     handler: async (request, h) => {
-    //         const id = request.params.id
-    //         const ObjectID = request.mongo.ObjectID;
-
-    //         const payload = request.payload
-
-    //         const status = await request.mongo.db.collection('movies').updateOne({_id: ObjectID(id)}, {$set: payload});
-
-    //         return status;
-
-    //     }
-    // });
     
-    // // Delete a movie from the database
-    // server.route({
-    //     method: 'DELETE',
-    //     path: '/movies/{id}',
-    //     options: {
-    //         validate: {
-    //             params: Joi.object({
-    //                 id: Joi.objectId()
-    //             })
-    //         }
-    //     },
-    //     handler: async (request, h) => {
-
-    //         const id = request.params.id
-    //         const ObjectID = request.mongo.ObjectID;
-
-    //         const payload = request.payload
-
-    //         const status = await request.mongo.db.collection('movies').deleteOne({_id: ObjectID(id)});
-
-    //         return status;
-    //     }
-    // });
-    
-    // // Search for a movie
-    // server.route({
-    //     method: 'GET',
-    //     path: '/search',
-    //     handler: async(request, h) => {
-    //         const query = request.query.term;
-
-    //         const results = await request.mongo.db.collection("movies").aggregate([
-    //             {
-    //                 $searchBeta: {
-    //                     "search": {
-    //                         "query": query,
-    //                         "path":"title"
-    //                     }
-    //                 }
-    //             },
-    //             {
-    //                 $project : {title:1, plot: 1}
-    //             },
-    //             {  
-    //                 $limit: 10
-    //             }
-    //             ]).toArray()
-    
-    //         return results;
-    //     }
-    // });
     
     await server.start();
     console.log('Server running on %s', server.info.uri);

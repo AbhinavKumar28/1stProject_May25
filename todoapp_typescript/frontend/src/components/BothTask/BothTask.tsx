@@ -3,24 +3,57 @@ import styles from "./BothTask.module.css";
 // import PropTypes from "prop-types";
 import React from "react";
 import type {JSX} from "react";
+// import { ObjectId } from "mongodb";
+type Task = {
+  _id: string;
+  todonote: string;
+};
 type BothTasksProps = {
-  tasks: string[];
-  setTasks: React.Dispatch<React.SetStateAction<string[]>>;
+  tasks: Task[];
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 };
 
 function BothTasks({ tasks, setTasks }:BothTasksProps):JSX.Element {
+    const removeTask = async (i:string):Promise<void> => {
+        const removedTask:Task[] = tasks.filter((task:Task):boolean => task._id !== i);
 
+        setTasks(removedTask);
+        // localStorage.setItem("lists", JSON.stringify(removedTask));
+        try {
+            const response= await fetch(`http://localhost:3005/todos/${i}`,{
+                method:"DELETE"
+            });
+            const data = await response.text();
+            console.log("hello",data);
+        }catch (err) {
+            console.error('Error:', err);
+        }
+    };
+    const renderTodos=():JSX.Element[]=>{
+        const a:JSX.Element[]= tasks.map((td:Task):JSX.Element => {
+                                return (
+                                    <React.Fragment key={JSON.stringify(td._id)} >
+                                        <li className={styles.note}>
+
+                                            <input type="checkbox" className={styles.noteChild} name="" id="" />
+                                            <span className={styles.note1}>{td.todonote}</span>
+                                            <span className={styles.options}>
+                                                <EditIcon tasks={tasks} setTasks={setTasks} index={td._id} />
+                                                <img className={styles.trashSvgrepoCom1Icon} aria-hidden onClick={() => removeTask(td._id)} alt="" src="/Assets/trash-svgrepo-com 1.svg" />
+                                            </span>
+                                            <hr className={styles.noteDivider} />
+                                        </li>
+                                        {/* {(index !== (tasks.length - 1)) && */}
+                                        <hr className={styles.noteDivider} />
+                                    </React.Fragment>);
+                            })
+                    return a
+    }
     // const editTask = i => {
 
     // };
 
     // const  = this.props;
-    const removeTask = (i:number):void => {
-        const removedTask:string[] = tasks.filter((_:string, index:number):boolean => index != i);
-
-        setTasks(removedTask);
-        localStorage.setItem("lists", JSON.stringify(removedTask));
-    };
 
     return (
         <>
@@ -30,24 +63,9 @@ function BothTasks({ tasks, setTasks }:BothTasksProps):JSX.Element {
                     <ul className="noteList">
                         {/* {(typeof tasks !== "undefined") && console.log(tasks)} */}
                         {(typeof tasks !== "undefined") &&
-                            tasks.map((eachItem:string, index:number):JSX.Element => {
-                                return (
-                                    <React.Fragment key={index} >
-                                        <li className={styles.note}>
-
-                                            <input type="checkbox" className={styles.noteChild} name="" id="" />
-                                            <span className={styles.note1}>{eachItem}</span>
-                                            <span className={styles.options}>
-                                                <EditIcon tasks={tasks} setTasks={setTasks} index={index} />
-                                                <img className={styles.trashSvgrepoCom1Icon} aria-hidden onClick={() => removeTask(index)} alt="" src="/Assets/trash-svgrepo-com 1.svg" />
-                                            </span>
-                                            <hr className={styles.noteDivider} />
-                                        </li>
-                                        {(index !== (tasks.length - 1)) &&
-                                        <hr className={styles.noteDivider} />}
-                                    </React.Fragment>);
-                            })
-                        }
+                            renderTodos()
+                            }
+                        
                         {/* {if (typeof tasks !== "undefined")
                         {tasks.map((eachItem, index) => {
                             return (

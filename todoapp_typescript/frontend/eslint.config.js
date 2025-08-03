@@ -46,7 +46,7 @@ export default defineConfig([
       ...tseslint.configs["recommended-type-checked"].rules,
 
       // React & hooks rules
-      ...pluginReact.configs.flat.recommended.rules,
+      ...pluginReact.configs.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
 
       // Accessibility rules

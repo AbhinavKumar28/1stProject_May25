@@ -5,24 +5,41 @@ import "reactjs-popup/dist/index.css";
 import type { JSX } from "react";
 // import Popy from "../PopUp/PopUp";
 import { useState, useEffect } from "react";
-type AddNewNoteProps = { tasks:string[], setTasks:React.Dispatch<React.SetStateAction<string[]>>}
+// import { ObjectId } from "mongodb";
+type Task = {
+    _id:string,
+    todonote:string
+}
+type AddNewNoteProps = { tasks:Task[], setTasks:React.Dispatch<React.SetStateAction<Task[]>>}
 function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
 
     // const  = this.props;
 
     //     const [tasks, setTasks] = useState([]);
     const [currentTask, setCurrentTask] = useState("");
-
+    
     useEffect(() => {
-        const storedItem:string | null = localStorage.getItem("lists");
-
-        if (storedItem) {
-            setTasks(JSON.parse(storedItem));
+        const showTask = async(): Promise<void> => {
+            let data: Task[] = []
+            try {
+                const response= await fetch(`http://localhost:3005/todos`,{
+                    method:"GET",
+                });
+                data = await response.json();
+                console.log("hello",data);
+                // return data
+            }catch (err) {
+                console.error('Error:', err);
+                // return []
+            }
+            if (data) {
+                setTasks(data);
+            }
         }
-
-        // localStorage.clear();
+        showTask()
     }, []);
     const addTask = async():Promise<void> => {
+        let data:Task = {} as Task
         try {
             const response= await fetch('http://localhost:3005/todosInsert',{
                 method:"POST",
@@ -31,13 +48,13 @@ function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
                 },
                 body:JSON.stringify({todonote:currentTask})
             });
-            const data = await response.text();
-            console.log(data);
+            data = await response.json();
+            console.log("hello",data);
         }catch (err) {
             console.error('Error:', err);
         }
         if (currentTask !== "") {
-            let updatedTask:string[] = [...tasks, currentTask];
+            let updatedTask:Task[] = [...tasks, data];
 
             setTasks(updatedTask);
             // localStorage.setItem("lists", JSON.stringify(updatedTask));
