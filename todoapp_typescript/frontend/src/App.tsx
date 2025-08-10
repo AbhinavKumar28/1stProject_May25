@@ -3,6 +3,8 @@ import type {JSX} from "react";
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import "./App.css";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // import IncompletedTasks from "./components/IncompletedTask/IncompletedTask";
 // import CompletedTasks from "./components/CompletedTask/CompletedTask";
@@ -10,10 +12,14 @@ import TaskInputForm from "./components/TaskInputForm/TaskInputForm.tsx";
 import BothTasks from "./components/BothTask/BothTask.tsx";
 import Heading from "./components/Heading/heading.tsx";
 import AddNewNote from "./components/addNewNote/addNewNote.tsx";
+import AddNewNote_1 from "./components/add-todo/addNewNote.tsx";
+import HomeScreen from "./components/homeScreen/homeScreen.tsx";
+import BackImage from "./components/BackImage/BackImage.tsx";
 // import { ObjectId } from "mongodb";
 type Task = {
   _id: string;
   todonote: string;
+//   category: "Personal" | "Work" | "Household"
 };
 // import HeaderImage from './components/HeaderImage/HeaderImage'
 
@@ -45,14 +51,23 @@ function App():JSX.Element {
     return (
         <>
             {/* <div className="background-color"> */}
-            <Heading/>
-            {/* <h1 >ToDo List</h1> */}
-            <TaskInputForm searchInput={searchInput} setSearchInput={setSearchInput}/>
-            {/* <IncompletedTasks />
-            <CompletedTasks /> */}
-            <AddNewNote tasks={tasks} setTasks={setTasks}/>
-            <BothTasks tasks={filteredTasks} setTasks={setTasks}/>
-            {/* </div> */}
+            <Router>
+                <Routes>
+                    
+                    <Route path="/add-todo" element={<AddNewNote_1 tasks={tasks} setTasks={setTasks}/>} />
+                    <Route path="/previous" element={<>
+                        <Heading/>
+                        <TaskInputForm searchInput={searchInput} setSearchInput={setSearchInput}/>
+                        
+                        <AddNewNote tasks={tasks} setTasks={setTasks}/>
+                        <BothTasks tasks={filteredTasks} setTasks={setTasks}/>
+                        <BackImage />
+                        </>
+                    } />
+                    <Route path="/" element={<HomeScreen tasks={tasks} setTasks={setTasks}/>} />
+                    
+                </Routes>
+            </Router>
         </>
     );
 }

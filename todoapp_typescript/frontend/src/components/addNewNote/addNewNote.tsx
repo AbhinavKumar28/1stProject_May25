@@ -17,7 +17,39 @@ function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
 
     //     const [tasks, setTasks] = useState([]);
     const [currentTask, setCurrentTask] = useState("");
-    
+    const [currentCategory, setCurrentCategory] = useState("");
+    const categoryToggle=(category:string):any=>{
+        let element=document.getElementById("Household")
+        let element1=document.getElementById("Personal")
+        let element2=document.getElementById("Work")
+        if (category==="Household"){
+            element=document.getElementById("Household")
+            element1=document.getElementById("Personal")
+            element2=document.getElementById("Work")
+            
+        }else if(category==="Work"){
+            element=document.getElementById("Work")
+            element1=document.getElementById("Personal")
+            element2=document.getElementById("Household")
+            
+        }else{
+            element=document.getElementById("Personal")
+            element1=document.getElementById("Work")
+            element2=document.getElementById("Household")
+            
+        }         
+        if (element){                       
+        element.classList.remove(styles.button)
+                                        
+                                        element.classList.add(styles.button2)
+                                        if (element1 && element2){
+                                        element1.classList.remove(styles.button2)
+                                        element2.classList.remove(styles.button2)
+                                        
+                                        element1.classList.add(styles.button)
+                                        element2.classList.add(styles.button)
+                    
+                                        }}}
     useEffect(() => {
         const showTask = async(): Promise<void> => {
             let data: Task[] = []
@@ -92,6 +124,42 @@ function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
                             <input type="text" placeholder="Input your note..." className={styles.searchNote} value={currentTask} onChange={e => setCurrentTask(e.target.value)}/>
 
                         </div>
+                        
+                        <div className={styles.content}>
+
+                            <button
+                                id="Household"
+                                className={styles.button}
+                                onClick={() => {
+                                    categoryToggle("Household")
+                                    
+                                }}
+                            >
+                        Household
+                            </button>
+                            <button
+                                id="Work"
+                                className={styles.button}
+                                onClick={() => {
+                                    categoryToggle("Work")
+                                    
+                                }}
+                            >
+                        Work
+                            </button>
+                            <button
+                                id="Personal"
+                                className={styles.button}
+                                onClick={() => {
+                                    categoryToggle("Personal")
+                                    
+                                }}
+                            >
+                        Personal
+                            </button>
+
+                        </div>
+
                         <div className={styles.content}>
 
                             <button
