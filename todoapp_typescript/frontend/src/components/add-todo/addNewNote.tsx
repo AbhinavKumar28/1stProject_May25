@@ -8,7 +8,8 @@ import { useState, useEffect } from "react";
 // import { ObjectId } from "mongodb";
 type Task = {
     _id:string,
-    todonote:string
+    todonote:string,
+    category: "Personal" | "Work" | "Household"
 }
 type AddNewNoteProps = { tasks:Task[], setTasks:React.Dispatch<React.SetStateAction<Task[]>>}
 function AddNewNote_1({ tasks, setTasks }:AddNewNoteProps):JSX.Element {

@@ -8,7 +8,8 @@ import { useState, useEffect } from "react";
 // import { ObjectId } from "mongodb";
 type Task = {
     _id:string,
-    todonote:string
+    todonote:string,
+    category: "personal" | "work" | "household"
 }
 type AddNewNoteProps = { tasks:Task[], setTasks:React.Dispatch<React.SetStateAction<Task[]>>}
 function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
@@ -22,21 +23,21 @@ function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
         let element=document.getElementById("Household")
         let element1=document.getElementById("Personal")
         let element2=document.getElementById("Work")
-        if (category==="Household"){
+        if (category==="household"){
             element=document.getElementById("Household")
             element1=document.getElementById("Personal")
             element2=document.getElementById("Work")
-            
-        }else if(category==="Work"){
+            setCurrentCategory("household")
+        }else if(category==="work"){
             element=document.getElementById("Work")
             element1=document.getElementById("Personal")
             element2=document.getElementById("Household")
-            
+            setCurrentCategory("work")
         }else{
             element=document.getElementById("Personal")
             element1=document.getElementById("Work")
             element2=document.getElementById("Household")
-            
+            setCurrentCategory("personal")
         }         
         if (element){                       
         element.classList.remove(styles.button)
@@ -50,26 +51,26 @@ function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
                                         element2.classList.add(styles.button)
                     
                                         }}}
-    useEffect(() => {
-        const showTask = async(): Promise<void> => {
-            let data: Task[] = []
-            try {
-                const response= await fetch(`http://localhost:3005/todos`,{
-                    method:"GET",
-                });
-                data = await response.json();
-                console.log("hello",data);
-                // return data
-            }catch (err) {
-                console.error('Error:', err);
-                // return []
-            }
-            if (data) {
-                setTasks(data);
-            }
-        }
-        showTask()
-    }, []);
+    // useEffect(() => {
+    //     const showTask = async(): Promise<void> => {
+    //         let data: Task[] = []
+    //         try {
+    //             const response= await fetch(`http://localhost:3005/todos`,{
+    //                 method:"GET",
+    //             });
+    //             data = await response.json();
+    //             console.log("hello",data);
+    //             // return data
+    //         }catch (err) {
+    //             console.error('Error:', err);
+    //             // return []
+    //         }
+    //         if (data) {
+    //             setTasks(data);
+    //         }
+    //     }
+    //     showTask()
+    // }, []);
     const addTask = async():Promise<void> => {
         let data:Task = {} as Task
         try {
@@ -78,7 +79,7 @@ function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
                 headers:{
                     "Content-Type":"application/json",
                 },
-                body:JSON.stringify({todonote:currentTask})
+                body:JSON.stringify({todonote:currentTask,category:currentCategory.toLowerCase()})
             });
             data = await response.json();
             console.log("hello",data);
@@ -131,7 +132,7 @@ function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
                                 id="Household"
                                 className={styles.button}
                                 onClick={() => {
-                                    categoryToggle("Household")
+                                    categoryToggle("household")
                                     
                                 }}
                             >
@@ -141,7 +142,7 @@ function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
                                 id="Work"
                                 className={styles.button}
                                 onClick={() => {
-                                    categoryToggle("Work")
+                                    categoryToggle("work")
                                     
                                 }}
                             >
@@ -151,7 +152,7 @@ function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
                                 id="Personal"
                                 className={styles.button}
                                 onClick={() => {
-                                    categoryToggle("Personal")
+                                    categoryToggle("personal")
                                     
                                 }}
                             >

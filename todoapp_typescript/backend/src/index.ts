@@ -24,6 +24,7 @@ joiObjectId(JoiImport);
 // Now you can use `JoiImport.objectId()`
 const Joi = JoiImport;
 
+type category = "personal" | "work" | "household"
 export default Joi;
 
 /// <reference path="./types/hapi-mongodb.d.ts" />
@@ -66,10 +67,56 @@ const init = async () => {
 
     server.route({
         method:"GET",
-        path:"/todos",
+        path:"/list/all/todos",
         handler: async (request,h)=>{
             try {
                 const todos = await request.mongo.db.collection('todoapp').find({}).toArray()
+                // console.log(todos)
+                // console.log(h.response(todos).code(200))
+                return todos
+            }catch (err){
+                console.error(err)
+                return h.response('Error fetching todos').code(500)
+            }
+        }
+    })
+    server.route({
+        method:"GET",
+        path:"/list/household/todos",
+        handler: async (request,h)=>{
+            try {
+                const todos = await request.mongo.db.collection('todoapp').find({ category: "household" }).toArray()
+                // console.log(todos)
+                // console.log(h.response(todos).code(200))
+                return todos
+            }catch (err){
+                console.error(err)
+                return h.response('Error fetching todos').code(500)
+            }
+        }
+    })
+    
+    server.route({
+        method:"GET",
+        path:"/list/personal/todos",
+        handler: async (request,h)=>{
+            try {
+                const todos = await request.mongo.db.collection('todoapp').find({ category: "personal" }).toArray()
+                // console.log(todos)
+                // console.log(h.response(todos).code(200))
+                return todos
+            }catch (err){
+                console.error(err)
+                return h.response('Error fetching todos').code(500)
+            }
+        }
+    })
+    server.route({
+        method:"GET",
+        path:"/list/work/todos",
+        handler: async (request,h)=>{
+            try {
+                const todos = await request.mongo.db.collection('todoapp').find({ category: "work" }).toArray()
                 // console.log(todos)
                 // console.log(h.response(todos).code(200))
                 return todos
@@ -88,19 +135,21 @@ const init = async () => {
             validate: {
             payload: Joi.object({
                 todonote: Joi.string().required(),
+                category: Joi.string().required().valid('work', 'personal', 'household')
                 }),
             },
         },
         handler: async (request, h) => {
 
-            const payload = request.payload as { todonote: string }
+            const payload = request.payload as { todonote: string, category:string}
             
             const status = await request.mongo.db.collection('todoapp').insertOne(payload);
             console.log("Inserted:", status.insertedId);
 
             return {
                 _id: status.insertedId,
-                todonote: payload.todonote
+                todonote: payload.todonote,
+                category: payload.category
             };
         }
     });
@@ -112,6 +161,10 @@ const init = async () => {
         path: '/todos/{objid}',
         options: {
             validate: {
+                payload: Joi.object({
+                    todonote: Joi.string().required(),
+                    category: Joi.string().required().valid('work', 'personal', 'household')
+                    }),
                 params: Joi.object({
                     objid: Joi.string().required(),
                     // todonote:Joi.string
@@ -123,7 +176,7 @@ const init = async () => {
             const id = new ObjectId(String(objid))
             // const ObjectID = request.mongo.ObjectID;
 
-            const payload = request.payload as { todonote: string }
+            const payload = request.payload as { todonote: string,category:string }
 
             const status = await request.mongo.db.collection('todoapp').updateOne({_id:id}, {$set: payload});
 

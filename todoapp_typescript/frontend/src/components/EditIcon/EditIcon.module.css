@@ -73,10 +73,16 @@ h1 {
   background-color: var(--background-color);
   color: #6c63ff;
   border: 1px solid #6c63ff ;
+  margin-right: 10px;
 }
 .button1{
     margin-left: auto;
     color: white;
+    background-color: #6c63ff;
+}
+.button2{
+    color: white;
+    margin-right: 10px;
     background-color: #6c63ff;
 }
 /* .modal .content {
@@ -93,7 +99,7 @@ h1 {
   background-color: var(--background-color);
   padding: 0px;
 }
-.optionsChild {
+/* .optionsChild {
   	width: 18px;
   	position: relative;
   	height: 18px;
@@ -101,4 +107,4 @@ h1 {
 }
 .note:hover .optionsChild{
 	display:inline;
-}
+} */

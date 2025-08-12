@@ -1,9 +1,9 @@
 import styles from "./heading.module.css";
 import type {JSX} from "react";
-function Heading():JSX.Element {
+function Heading({ id }: { id?: string }):JSX.Element {
     return (
         <>
-            <h1 className={styles.h1}>ToDo List</h1>
+            <h1 className={styles.h1}>{id?id.toUpperCase():null}</h1>
         </>
     );
 }
