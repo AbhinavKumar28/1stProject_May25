@@ -5,14 +5,20 @@ import "reactjs-popup/dist/index.css";
 import type {JSX} from "react";
 // import Popy from "../PopUp/PopUp";
 import { useState, useEffect } from "react";
-import { string } from "joi";
+import React from "react";
+// import { string } from "joi";
 // import type { ObjectId } from "mongodb";
 type Task = {
     _id: string,
     todonote: string,
-    category: "personal" | "work" | "household" 
+    category:string
 }
-type category = "personal" | "work" | "household"
+type category = string
+
+type Category = {
+    _id:string,
+    category: string
+}
 type EditIconProps = {tasks:Task[], setTasks:React.Dispatch<React.SetStateAction<Task[]>>, index:string}
 function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
 
@@ -24,41 +30,42 @@ function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
     // const [currentTask, setCurrentTask] = useState("");
     // const [currentCategory, setCurrentCategory] = useState<string>(foundTask?foundTask.todonote:"");
     const [currentCategory, setCurrentCategory] = useState<category>(foundTask?foundTask.category:"household");
-    useEffect(()=>{
-        categoryToggle(currentCategory)
-    });
-    const categoryToggle=(category:string):any=>{
-        let element=document.getElementById("Household")
-        let element1=document.getElementById("Personal")
-        let element2=document.getElementById("Work")
-        if (category==="household"){
-            element=document.getElementById("Household")
-            element1=document.getElementById("Personal")
-            element2=document.getElementById("Work")
-            setCurrentCategory("household")
-        }else if(category==="work"){
-            element=document.getElementById("Work")
-            element1=document.getElementById("Personal")
-            element2=document.getElementById("Household")
-            setCurrentCategory("work")
-        }else{
-            element=document.getElementById("Personal")
-            element1=document.getElementById("Work")
-            element2=document.getElementById("Household")
-            setCurrentCategory("personal")
-        }         
-        if (element){                       
-        element.classList.remove(styles.button)
+    // useEffect(()=>{
+    //     categoryToggle(currentCategory)
+    // });
+    const [categories,setCategories]=useState<Category[]>([])
+    // const categoryToggle=(category:string):any=>{
+        // let element=document.getElementById("Household")
+        // let element1=document.getElementById("Personal")
+        // let element2=document.getElementById("Work")
+        // if (category==="household"){
+        //     element=document.getElementById("Household")
+        //     element1=document.getElementById("Personal")
+        //     element2=document.getElementById("Work")
+        //     setCurrentCategory("household")
+        // }else if(category==="work"){
+        //     element=document.getElementById("Work")
+        //     element1=document.getElementById("Personal")
+        //     element2=document.getElementById("Household")
+        //     setCurrentCategory("work")
+        // }else{
+        //     element=document.getElementById("Personal")
+        //     element1=document.getElementById("Work")
+        //     element2=document.getElementById("Household")
+        //     setCurrentCategory("personal")
+        // }         
+        // if (element){                       
+        // element.classList.remove(styles.button)
                                         
-                                        element.classList.add(styles.button2)
-                                        if (element1 && element2){
-                                        element1.classList.remove(styles.button2)
-                                        element2.classList.remove(styles.button2)
+        //                                 element.classList.add(styles.button2)
+        //                                 if (element1 && element2){
+        //                                 element1.classList.remove(styles.button2)
+        //                                 element2.classList.remove(styles.button2)
                                         
-                                        element1.classList.add(styles.button)
-                                        element2.classList.add(styles.button)
+        //                                 element1.classList.add(styles.button)
+        //                                 element2.classList.add(styles.button)
                     
-                                        }}}
+        //                                 }}}
     
     // useEffect(() => {
     //         const showTask = async(): Promise<void> => {
@@ -80,7 +87,21 @@ function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
     //         }
     //         showTask()
     //     }, []);
-        
+    const [selectedCategory,setSelectedCategory]=useState("")
+        function handleCategoryChange(e:React.ChangeEvent<HTMLSelectElement>){
+            setSelectedCategory(e.target.value.toLowerCase())
+            setCurrentCategory(e.target.value.toLowerCase())
+        }
+            const renderCategories=():JSX.Element[]=>{
+                const a:JSX.Element[]= categories.map((cate:Category):JSX.Element => {
+                                        return (
+                                            <React.Fragment key={JSON.stringify(cate._id)} >
+                <option value={cate.category}>{cate.category.toUpperCase()}</option>
+                </React.Fragment>);
+                                            })
+                                    return a
+                    }
+         
     const editTask = async():Promise<void> => {
         try {
             const response= await fetch(`http://localhost:3005/todos/${index}`,{
@@ -115,7 +136,28 @@ function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
     //     const imagePopup = () => {
     //         Popy();
     //     };
-
+    useEffect(()=>{
+                const showCategory = async(): Promise<void> => {
+                        let data: Task[] = []
+                        try {
+                            const response= await fetch(`http://localhost:3005/list/categories`,{
+                                method:"GET",
+                            });
+                            data = await response.json();
+                            console.log("hello",data);
+                            // return data
+                        }catch (err) {
+                            console.error('Error:', err);
+                            // return []
+                        }
+                        if (data) {
+                            setCategories(data);
+                        }
+                    }
+                    showCategory()
+                
+            },[])
+        
     return (
         <>
             <Popup
@@ -142,8 +184,16 @@ function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
                             <input type="text" placeholder="Input your note..." className={styles.searchNote} value={currentTask} onChange={e => setCurrentTask(e.target.value)}/>
 
                         </div>
+                         <div className={styles.search}>
+                            {/* <input type="text" placeholder="Input your category..." className={styles.searchNote} value={currentTask} onChange={e => setCurrentTask(e.target.value)}/> */}
+                            <select name="cars" id="category" value = {selectedCategory} onChange={handleCategoryChange} className={styles.searchNote_1} aria-hidden >
+                                <option value= "" disabled selected hidden>Input your category</option>
+                               {renderCategories()}
+                            </select>
                         
-                        <div className={styles.content}>
+                        </div>
+                       
+                        {/* <div className={styles.content}>
 
                             <button
                                 id="Household"
@@ -176,8 +226,8 @@ function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
                         Personal
                             </button>
 
-                        </div>
-                        <div className={styles.content}>
+                        </div>*/}
+                        <div className={styles.content}> 
 
                             <button
 

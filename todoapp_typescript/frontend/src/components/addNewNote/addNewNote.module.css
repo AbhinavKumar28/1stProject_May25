@@ -35,6 +35,22 @@ h1{
 	background-color: var(--background-color);
 	border: none;
 }
+.searchNote_1 {
+  	position: relative;
+  	font-size: 20px;
+  	/* line-height: 100%;
+	  height: 100%; */
+  	font-weight: 500;
+  	font-family: Inter;
+  	color: #c3c1e5;
+  	text-align: left;
+	background-color: var(--background-color);
+	border: none;
+  color: gray;
+  text-align: center;
+  width: 185px;
+  height: 30px;
+}
 .search {
   	border-radius: 5px;
   	border: 1px solid #6c63ff;
@@ -74,6 +90,9 @@ h1 {
   color: #6c63ff;
   border: 1px solid #6c63ff ;
   margin-right: 10px;
+}
+#label{
+  color: #6c63ff;
 }
 .button1{
     margin-left: auto;

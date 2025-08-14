@@ -7,7 +7,7 @@ import type {JSX} from "react";
 type Task = {
   _id: string;
   todonote: string;
-  category: "personal" | "work" | "household"
+  category: string
 };
 type BothTasksProps = {
   tasks: Task[];

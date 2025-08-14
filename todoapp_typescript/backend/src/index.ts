@@ -24,7 +24,7 @@ joiObjectId(JoiImport);
 // Now you can use `JoiImport.objectId()`
 const Joi = JoiImport;
 
-type category = "personal" | "work" | "household"
+// type category = "personal" | "work" | "household"
 export default Joi;
 
 /// <reference path="./types/hapi-mongodb.d.ts" />
@@ -35,10 +35,14 @@ const init = async () => {
         port: 3005,
         host: 'localhost',
         routes: {
-            cors: {
-            origin: ['*']   
+                cors: {
+                    origin: ['http://localhost:5173'], 
+                    headers: ['Accept', 'Content-Type', 'Authorization'],
+                    additionalHeaders: ['X-Requested-With'],
+                    exposedHeaders: ['Content-Disposition'],
+                    credentials: true
+                }
             }
-        }
     });
     
     await server.register({
@@ -80,12 +84,64 @@ const init = async () => {
             }
         }
     })
+    // server.route({
+    //     method:"GET",
+    //     path:"/list/household/todos",
+    //     handler: async (request,h)=>{
+    //         try {
+    //             const todos = await request.mongo.db.collection('todoapp').find({ category: "household" }).toArray()
+    //             // console.log(todos)
+    //             // console.log(h.response(todos).code(200))
+    //             return todos
+    //         }catch (err){
+    //             console.error(err)
+    //             return h.response('Error fetching todos').code(500)
+    //         }
+    //     }
+    // })
+    // server.route({
+    //     method: 'PUT',
+    //     path: '/todos/{objid}',
+    //     options: {
+    //         validate: {
+    //             payload: Joi.object({
+    //                 todonote: Joi.string().required(),
+    //                 category: Joi.string().required().valid('work', 'personal', 'household')
+    //                 }),
+    //             params: Joi.object({
+    //                 objid: Joi.string().required(),
+    //                 // todonote:Joi.string
+    //             })
+    //         }
+    //     },
+    //     handler: async (request, h) => {
+    //         const {objid}=request.params
+    //         const id = new ObjectId(String(objid))
+    //         // const ObjectID = request.mongo.ObjectID;
+
+    //         const payload = request.payload as { todonote: string,category:string }
+
+    //         const status = await request.mongo.db.collection('todoapp').updateOne({_id:id}, {$set: payload});
+
+    //         return status;
+    //     }
+    // });
+    
     server.route({
         method:"GET",
-        path:"/list/household/todos",
+        path:'/list/{categories}/todos',
+        options: {
+            validate: {
+                params: Joi.object({
+                    categories: Joi.string().required(),
+                    // todonote:Joi.string
+                })
+            }
+        },
         handler: async (request,h)=>{
             try {
-                const todos = await request.mongo.db.collection('todoapp').find({ category: "household" }).toArray()
+                const {categories}=request.params
+                const todos = await request.mongo.db.collection('todoapp').find({ category: categories }).toArray()
                 // console.log(todos)
                 // console.log(h.response(todos).code(200))
                 return todos
@@ -96,13 +152,29 @@ const init = async () => {
         }
     })
     
+    // server.route({
+    //     method:"GET",
+    //     path:"/list/personal/todos",
+    //     handler: async (request,h)=>{
+    //         try {
+    //             const todos = await request.mongo.db.collection('todoapp').find({ category: "personal" }).toArray()
+    //             // console.log(todos)
+    //             // console.log(h.response(todos).code(200))
+    //             return todos
+    //         }catch (err){
+    //             console.error(err)
+    //             return h.response('Error fetching todos').code(500)
+    //         }
+    //     }
+    // })
+    
     server.route({
         method:"GET",
-        path:"/list/personal/todos",
+        path:"/list/categories",
         handler: async (request,h)=>{
             try {
-                const todos = await request.mongo.db.collection('todoapp').find({ category: "personal" }).toArray()
-                // console.log(todos)
+                const todos = await request.mongo.db.collection('category').find({ }).toArray()
+                console.log(todos)
                 // console.log(h.response(todos).code(200))
                 return todos
             }catch (err){
@@ -111,23 +183,48 @@ const init = async () => {
             }
         }
     })
-    server.route({
-        method:"GET",
-        path:"/list/work/todos",
-        handler: async (request,h)=>{
-            try {
-                const todos = await request.mongo.db.collection('todoapp').find({ category: "work" }).toArray()
-                // console.log(todos)
-                // console.log(h.response(todos).code(200))
-                return todos
-            }catch (err){
-                console.error(err)
-                return h.response('Error fetching todos').code(500)
-            }
-        }
-    })
+    
+    // server.route({
+    //     method:"GET",
+    //     path:"/list/work/todos",
+    //     handler: async (request,h)=>{
+    //         try {
+    //             const todos = await request.mongo.db.collection('todoapp').find({ category: "work" }).toArray()
+    //             // console.log(todos)
+    //             // console.log(h.response(todos).code(200))
+    //             return todos
+    //         }catch (err){
+    //             console.error(err)
+    //             return h.response('Error fetching todos').code(500)
+    //         }
+    //     }
+    // })
     
     // Add a new todonote to the database
+    server.route({
+        method: 'POST',
+        path: '/categoriesInsert',
+        options: {
+            validate: {
+            payload: Joi.object({
+                category: Joi.string().required()
+                }),
+            },
+        },
+        handler: async (request, h) => {
+
+            const payload = request.payload as { category:string}
+            
+            const status = await request.mongo.db.collection('category').insertOne(payload);
+            console.log("Inserted:", status.insertedId);
+
+            return {
+                _id: status.insertedId,
+                category: payload.category
+            };
+        }
+    });
+    
     server.route({
         method: 'POST',
         path: '/todosInsert',
@@ -135,7 +232,7 @@ const init = async () => {
             validate: {
             payload: Joi.object({
                 todonote: Joi.string().required(),
-                category: Joi.string().required().valid('work', 'personal', 'household')
+                category: Joi.string().required()
                 }),
             },
         },
@@ -163,7 +260,7 @@ const init = async () => {
             validate: {
                 payload: Joi.object({
                     todonote: Joi.string().required(),
-                    category: Joi.string().required().valid('work', 'personal', 'household')
+                    category: Joi.string().required()
                     }),
                 params: Joi.object({
                     objid: Joi.string().required(),
@@ -216,3 +313,8 @@ const init = async () => {
 }
 
 init();
+//category no repeat check before making 
+//delete a category
+//edit a category
+//selecting a category should be mandatory
+//remove category restrictions for only 3 categories
