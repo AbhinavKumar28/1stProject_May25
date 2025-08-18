@@ -10,7 +10,7 @@ import React from "react";
 type Task = {
     _id:string,
     todonote:string,
-    category: "personal" | "work" | "household"
+    category: string
 }
 type Category = {
     _id:string,

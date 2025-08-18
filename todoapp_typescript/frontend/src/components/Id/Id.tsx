@@ -13,7 +13,7 @@ import type {JSX} from "react";
 type Task = {
     _id:string,
     todonote:string,
-    category: "personal" | "work" | "household"
+    category: string,
 }
 // type AddNewNoteProps = { tasks:Task[], setTasks:React.Dispatch<React.SetStateAction<Task[]>>}
 
