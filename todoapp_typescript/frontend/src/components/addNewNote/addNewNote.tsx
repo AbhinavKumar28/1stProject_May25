@@ -61,7 +61,7 @@ function AddNewNote({ tasks, setTasks }:AddNewNoteProps):JSX.Element {
                 }
     const addTask = async():Promise<void> => {
         let data:Task = {} as Task
-        let a :string=""
+        // let a :string=""
         try {
             const response= await fetch('http://localhost:3005/todosInsert',{
                 method:"POST",

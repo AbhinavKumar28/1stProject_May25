@@ -30,6 +30,7 @@ function HomeScreen({ tasks, setTasks }:AddNewNoteProps):JSX.Element{
                 },
                 body:JSON.stringify({category:currentCategory.toLowerCase()})
             });
+            console.log(response)
             data = await response.json();
             console.log("hello",data);
         }catch (err) {
@@ -65,11 +66,12 @@ function HomeScreen({ tasks, setTasks }:AddNewNoteProps):JSX.Element{
                     const response= await fetch(`http://localhost:3005/list/categories`,{
                         method:"GET",
                     });
+                    console.log(response)
                     data = await response.json();
                     console.log("hello",data);
                     // return data
                 }catch (err) {
-                    console.error('Error:', err);
+                    console.error('Error1:', err);
                     // return []
                 }
                 if (data) {
