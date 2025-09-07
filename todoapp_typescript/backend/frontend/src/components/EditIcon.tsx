@@ -1,6 +1,7 @@
-import styles from "./EditIcon.module.css";
+import "../styles/styles.css";
+
+import '../Assets/Frame-6.svg';
 import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
 // import PropTypes from "prop-types";
 import type {JSX} from "react";
 // import Popy from "../PopUp/PopUp";
@@ -162,76 +163,34 @@ function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
         <>
             <Popup
                 trigger={
-                    <img  alt="" aria-hidden src="/Assets/Frame 6.svg" />
+                    <img alt="" aria-hidden src="/Assets/Frame-6.svg" />
                 }
                 modal
 
-                contentStyle={{ padding: "0px", border: "1px solid white", borderRadius: "5px" }}
-
-                // contentClassName="my-custom-content"
-                // overlayClassName="my-custom-overlay"
                 nested
             >
                 {close => (
-                    <div className={styles.modal}>
-                        {/* <button className="close" onClick={close}>
-                      &times;
-                        </button> */}
-                        {/* <div className="header"> Modal Title </div> */}
-                        <div className={styles.newNoteHeading}><h1>New Note</h1>
+                    <div className="modal">
+                        <div className='newNoteHeading'><h1>New Note</h1>
                         </div>
-                        <div className={styles.search}>
-                            <input type="text" placeholder="Input your note..." className={styles.searchNote} value={currentTask} onChange={e => setCurrentTask(e.target.value)}/>
+                        <div className='inputContainer'>
+                            <input type="text" placeholder="Input your note..." className='inputElement' value={currentTask} onChange={e => setCurrentTask(e.target.value)}/>
 
                         </div>
-                         <div className={styles.search}>
-                            {/* <input type="text" placeholder="Input your category..." className={styles.searchNote} value={currentTask} onChange={e => setCurrentTask(e.target.value)}/> */}
-                            <select name="cars" id="category" value = {selectedCategory} onChange={handleCategoryChange} className={styles.searchNote_1} aria-hidden >
+                         <div className='inputContainer'>
+                            <select name="cars" id="category" value = {selectedCategory} onChange={handleCategoryChange} className='inputElement' aria-hidden >
                                 <option value= "" disabled selected hidden>Input your category</option>
                                {renderCategories()}
                             </select>
                         
                         </div>
                        
-                        {/* <div className={styles.content}>
-
-                            <button
-                                id="Household"
-                                className={styles.button}
-                                onClick={() => {
-                                    categoryToggle("household")
-                                    
-                                }}
-                            >
-                        Household
-                            </button>
-                            <button
-                                id="Work"
-                                className={styles.button}
-                                onClick={() => {
-                                    categoryToggle("work")
-                                    
-                                }}
-                            >
-                        Work
-                            </button>
-                            <button
-                                id="Personal"
-                                className={styles.button}
-                                onClick={() => {
-                                    categoryToggle("personal")
-                                    
-                                }}
-                            >
-                        Personal
-                            </button>
-
-                        </div>*/}
-                        <div className={styles.content}> 
+                        
+                        <div className='content'> 
 
                             <button
 
-                                className={styles.button}
+                                className='closeButton'
                                 onClick={() => {
 
                                     // console.log("modal closed ");
@@ -243,7 +202,7 @@ function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
 
                             <button
 
-                                className={styles.button1}
+                                className='addButton'
                                 onClick={() => {
 
                                     // console.log("modal closed ");

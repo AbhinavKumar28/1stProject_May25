@@ -3,7 +3,7 @@ import type {JSX} from "react";
 function Heading({ id }: { id?: string }):JSX.Element {
     return (
         <>
-            <h1 className={styles.h1}>{id?id.toUpperCase():null}</h1>
+            <div className={styles.newNoteHeading}><h1>{id?id.toUpperCase():null}</h1></div>
         </>
     );
 }

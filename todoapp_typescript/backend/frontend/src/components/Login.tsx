@@ -1,6 +1,6 @@
 import type { JSX } from "react";
-import styles from "./Login.module.css";
 import React from "react";
+import "../styles/styles.css";
 // import bcrypt from "bcrypt"
 
 type Data = {
@@ -13,7 +13,18 @@ type Data_login = {
     email:string,
     password: string
 }
-function Login ():JSX.Element{
+type Task = {
+    _id:string,
+    todonote:string,
+    category: string
+}
+type Category = {
+    _id:string,
+    category: string
+}
+type AddNewNoteProps = { tasks:Task[], setTasks:React.Dispatch<React.SetStateAction<Task[]>>}
+// function AddNewNote(
+function Login ({ tasks, setTasks }:AddNewNoteProps):JSX.Element{
     let data:Data = {} as Data 
     let data_login:Data_login = {} as Data_login
     const handleSignup = async():Promise<void> => {
@@ -79,23 +90,23 @@ function Login ():JSX.Element{
            
         
     return <>
-        <div className={styles.newNoteHeading}><h1>Sign Up</h1>
+        <div className='newNoteHeading'><h1>Sign Up</h1>
                         </div>
-                        <div className={styles.search}>
-                            <input type="text" placeholder="Name" id = "signup-name" className={styles.searchNote} />
+                        <div className='inputContainer'>
+                            <input type="text" placeholder="Name" id = "signup-name" className='inputElement'/>
                         </div>
-                        <div className={styles.search}>
-                            <input type="text" placeholder="Email Id" id = "signup-email" className={styles.searchNote} />    
+                        <div className='inputContainer'>
+                            <input type="text" placeholder="Email Id" id = "signup-email" className='inputElement'/>    
                         </div>
-                        <div className={styles.search}>
-                            <input type="text" placeholder="Password" id = "signup-password" className={styles.searchNote} />
+                        <div className='inputContainer'>
+                            <input type="text" placeholder="Password" id = "signup-password" className='inputElement'/>
                         </div>
-                        <div className={styles.search}>
-                            <input type="text" placeholder="Confirm Password" id = "signup-confirm-password" className={styles.searchNote} />
+                        <div className='inputContainer'>
+                            <input type="text" placeholder="Confirm Password" id = "signup-confirm-password" className='inputElement'/>
                         </div>
                         <button
 
-                                className={styles.button1}
+                                className='addButton'
                                 onClick={handleSignup}
 
                                 // style={{ marginLeft: "auto" }}
@@ -103,17 +114,17 @@ function Login ():JSX.Element{
                         Sign Up
                             </button>
     
-    <div className={styles.newNoteHeading}><h1>Login</h1>
+    <div className='newNoteHeading'><h1>Login</h1>
                         </div>
-                        <div className={styles.search}>
-                            <input type="text" placeholder="Email Id" id = "login-email" className={styles.searchNote} />    
+                        <div className='inputContainer'>
+                            <input type="text" placeholder="Email Id" id = "login-email" className='inputElement'/>    
                         </div>
-                        <div className={styles.search}>
-                            <input type="text" placeholder="Password" id = "password" className={styles.searchNote} />
+                        <div className='inputContainer'>
+                            <input type="text" placeholder="Password" id = "password" className='inputElement'/>
                         </div>
                         <button
 
-                                className={styles.button1}
+                                className='addButton'
                                 onClick={handleLogin}
 
                                 // style={{ marginLeft: "auto" }}

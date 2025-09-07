@@ -1,24 +1,19 @@
-// const Hapi = require('@hapi/hapi');
 //1aEzDJzPiZjePpBC - password
 import Hapi from '@hapi/hapi'
-import './types/hapiMongoPatch'; 
-import { Request, ResponseToolkit } from '@hapi/hapi';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import Inert from '@hapi/inert'
+import './types/hapiMongoPatch.ts'; 
+// import { Request, ResponseToolkit } from '@hapi/hapi';
 import HapiMongoDB from 'hapi-mongodb';
-// const Joi = require('@hapi/joi');
-// import Joi from 'joi'
-// import joiObjectId from 'joi-objectid'
-// import { request } from 'http';
 import { ObjectId } from "mongodb";
-// const Joi = require('joi');
-// Joi.objectId = require('joi-objectid')(Joi);
-// import JoiImport from 'joi';
-// import joiObjectId from 'joi-objectid';
-
-// // Call joiObjectId with JoiImport to get the extension object
-// const Joi = JoiImport.extend(joiObjectId(JoiImport));
 import JoiImport from 'joi';
+//@ts-ignore
 import joiObjectId from 'joi-objectid';
+// impor./types/joi-objectid
 import bcrypt from "bcrypt"
+import Path from 'path'
+// const Path = require('path');
 // Mutates Joi to add `objectId` method
 joiObjectId(JoiImport);
 
@@ -30,63 +25,9 @@ export default Joi;
 
 /// <reference path="./types/hapi-mongodb.d.ts" />
 
-// type joh= {
-//         username: string;
-//         password: string;
-//         name: string;
-//         id: string;
-//     };
-// type users = {
-//     john:joh
-// }
-// const users:users = {
-//     john: {
-//         username: 'john',
-//         password: '$2a$10$iqJSHD.BGr0E2IxQwYgJmeP3NvhPrXAeLSaGCj6IR/XU5QtjVu5Tm',   // 'secret'
-//         name: 'John Doe',
-//         id: '2133d32a'
-//     }
-// };
-
-// const validate = async (request:Request, username:keyof typeof users, password:string) => {
-
-//     const user = users[username];
-//     if (!user) {
-//         return { credentials: null, isValid: false };
-//     }
-
-//     const isValid = await bcrypt.compare(password, user.password);
-//     const credentials = { id: user.id, name: user.name };
-
-//     return { isValid, credentials };
-// };
-
-// const start = async () => {
-
-//     const server = Hapi.server({ port: 4000 });
-
-//     await server.register(require('@hapi/basic'));
-
-//     server.auth.strategy('simple', 'basic', { validate });
-
-//     server.route({
-//         method: 'GET',
-//         path: '/',
-//         options: {
-//             auth: 'simple'
-//         },
-//         handler: function (request, h) {
-
-//             return 'welcome';
-//         }
-//     });
-
-//     await server.start();
-
-//     console.log('server running at: ' + server.info.uri);
-// };
-
-// start();
+/// <reference path="./types/joi-objectid.d.ts" />
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const init = async () => {
 
     const server = Hapi.server({
@@ -94,16 +35,19 @@ const init = async () => {
         host: 'localhost',
         routes: {
                 cors: {
-                    origin: ['http://localhost:5173'], 
-                    headers: ['Accept', 'Content-Type', 'Authorization'],
+                    origin: ['http://localhost:3005'], 
+                    headers: ['Accept', 'Content-Type', 'Authorization', 'If-None-Match'],
                     additionalHeaders: ['X-Requested-With'],
                     exposedHeaders: ['Content-Disposition'],
                     credentials: true
+                },
+                files: {
+                    relativeTo: Path.join(__dirname, '../../dist')
                 }
             }
     });
     
-    await server.register({
+    await server.register([{
         plugin: HapiMongoDB,
         options: {
           url: 'mongodb://localhost:27017/latest_db',
@@ -113,7 +57,10 @@ const init = async () => {
           },
           decorate: true
         }
-    });
+    },{
+        plugin: Inert,
+        options:{}
+}]);
     
     // server.route({
     //     method: 'GET',
@@ -127,6 +74,53 @@ const init = async () => {
     //     }
     // });
 
+    server.route({
+        method: 'GET',
+        path: '/files/css/{param*}',
+        handler: {
+            directory: {
+                path: './css/',
+                listing: true,
+                defaultExtension:'css'
+            }
+        }
+    });
+    
+    server.route({
+        method: 'GET',
+        path: '/Assets/{param*}',
+        handler: {
+            directory: { 
+                path: Path.join(__dirname, '../../dist/Assets/'), 
+                index: ['index.html']
+            }
+        }
+    });
+    
+    
+    server.route({
+        method: '*',
+        path: '/{param*}',
+        handler: {
+            directory: {
+                path: Path.join(__dirname, '../../dist'), 
+                index: ['index.html']
+            }
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/files/tsx/{param*}',
+        handler: {
+            directory: {
+                path: './tsx/',
+                listing: true,
+                defaultExtension:'tsx'
+            }
+        }
+    });
+    
     server.route({
         method:"GET",
         path:"/list/all/todos",
@@ -184,7 +178,20 @@ const init = async () => {
     //         return status;
     //     }
     // });
-    
+    // server.route({
+    //     method:"GET",
+    //     path:'/{filename}',
+    //     options: {
+    //         validate: {
+    //             params: Joi.object({
+    //                 filename: Joi.string().required(),
+    //             })
+    //         }
+    //     },
+    //     handler: async (request,h)=>{
+
+    //     }
+    // })
     server.route({
         method:"GET",
         path:'/list/{categories}/todos',
@@ -202,6 +209,7 @@ const init = async () => {
                 const todos = await request.mongo.db.collection('todoapp').find({ category: categories }).toArray()
                 // console.log(todos)
                 // console.log(h.response(todos).code(200))
+                
                 return todos
             }catch (err){
                 console.error(err)
@@ -331,7 +339,7 @@ const init = async () => {
     
 
     server.route({
-        method: 'GET',
+        method: 'POST',
         path: '/login',
         options: {
             validate: {
@@ -357,37 +365,19 @@ const init = async () => {
                 password:string|object
             }
             try {
-                const hashedpassword = await request.mongo.db.collection('users').find({ email: payload.email }).toArray()
-                bcrypt.compare(payload.password, hashedpassword[0].password, function(err, result) {
+                const founduserinfo = await request.mongo.db.collection('users').find({ email: payload.email }).toArray()
+                bcrypt.compare(payload.password, founduserinfo[0].password, function(err, result) {
+                        console.log("result",result)
                     if (result === true){
-                        
-                        console.log("login successful")
-                        return hashedpassword
-
+                        console.log("login successful",founduserinfo)
                     }
                 });
+                // return undefined
+                return (founduserinfo[0]!==undefined)?founduserinfo[0]:"No user with this email found"
             }catch (err){
                 console.error(err)
                 return h.response('Error fetching todos').code(500)
             }
-            // Load hash from your password DB.
-// bcrypt.compare(someOtherPlaintextPassword, hash, function(err, result) {
-//     // result == false
-// });
-//             bcrypt.hash(payload.password, saltRounds, async function(err, hashedPassword) {
-//                         console.log(payload.password)
-//                         a={...payload,password:hashedPassword}
-//                         const status = await request.mongo.db.collection('users').insertOne(a);
-//                         console.log("Inserted:", status.insertedId);
-            
-//                     });
-            
-//             return {
-//                 // _id: status.insertedId,
-//                 name:payload.name,
-//                 email:payload.email,
-//                 password: payload.password
-//             };
         }
     });
     
@@ -484,3 +474,5 @@ init();
 //edit a category
 //selecting a category should be mandatory
 //remove category restrictions for only 3 categories
+//involvement ki kami h
+//q of route.

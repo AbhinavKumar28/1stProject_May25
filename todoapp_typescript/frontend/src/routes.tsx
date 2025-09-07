@@ -17,7 +17,7 @@ function Rout():JSX.Element{
                     {/* <Route path="/add-todo" element={<AddNewNote_1 tasks={tasks} setTasks={setTasks}/>} /> */}
                     <Route path="/list/:id/todos" element={<Id />} />
                     <Route path="/" element={<HomeScreen tasks={tasks} setTasks={setTasks}/>} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/Login" element={<Login />} />
                 </Routes>
             </Router>
         

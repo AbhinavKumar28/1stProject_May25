@@ -48,12 +48,12 @@ function TaskInputForm({ searchInput, setSearchInput }:TaskInputFormProps):JSX.E
 
                         <img className={styles.vectorIcon} alt="" src="/Assets/Vector.svg" />
                     </div>
-                    <div className={styles.select}>
+                    {/* <div className={styles.select}>
                         <div className={styles.content}>
-                            <div id="searchBtn" className={styles.all} aria-hidden>all</div>
+                            <div id="searchBtn" className={styles.all} aria-hidden>all</div> */}
                             {/* <img className={styles.chevronTopIcon} alt="" src="chevron-top.png" /> */}
-                        </div>
-                    </div>
+                        {/* </div>
+                    </div> */}
                     <div className={styles.colorScheme}>
                         <div className={styles.colorSchemeChild} >
                             {/* <input type="checkbox" onChange={switchTheme}/> */}

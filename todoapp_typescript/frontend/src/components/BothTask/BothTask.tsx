@@ -42,7 +42,7 @@ function BothTasks({ tasks, setTasks }:BothTasksProps):JSX.Element {
                                                 <EditIcon tasks={tasks} setTasks={setTasks} index={td._id} />
                                                 <img className={styles.trashSvgrepoCom1Icon} aria-hidden onClick={() => removeTask(td._id)} alt="" src="/Assets/trash-svgrepo-com 1.svg" />
                                             </span>
-                                            <hr className={styles.noteDivider} />
+                                            {/* <hr className={styles.noteDivider} /> */}
                                         </li>
                                         {/* {(index !== (tasks.length - 1)) && */}
                                         <hr className={styles.noteDivider} />
