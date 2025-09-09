@@ -1,30 +1,7 @@
 import type { JSX } from "react";
-import React from "react";
-import "../styles/styles.css";
-// import bcrypt from "bcrypt"
-
-type Data = {
-    name:string,
-    email:string,
-    password: string
-}
-
-type Data_login = {
-    email:string,
-    password: string
-}
-type Task = {
-    _id:string,
-    todonote:string,
-    category: string
-}
-type Category = {
-    _id:string,
-    category: string
-}
-type AddNewNoteProps = { tasks:Task[], setTasks:React.Dispatch<React.SetStateAction<Task[]>>}
-// function AddNewNote(
-function Login ({ tasks, setTasks }:AddNewNoteProps):JSX.Element{
+import "../assets/styles/styles.css";
+import type { Data,Data_login, ComponentProps } from '../types/components.d.ts';
+function Login ({ tasks, setTasks }:ComponentProps):JSX.Element{
     let data:Data = {} as Data 
     let data_login:Data_login = {} as Data_login
     const handleSignup = async():Promise<void> => {
@@ -46,7 +23,7 @@ function Login ({ tasks, setTasks }:AddNewNoteProps):JSX.Element{
                     return 
                 }else{
                     try {
-                        const response= await fetch('http://localhost:3005/Signup',{
+                        const response= await fetch('http://localhost:3005/signup',{
                             method:"POST",
                             headers:{
                                 "Content-Type":"application/json",

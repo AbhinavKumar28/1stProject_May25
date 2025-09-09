@@ -1,11 +1,8 @@
 import React from "react";
-import "../styles/styles.css";
-import '../Assets/Vector.svg';
-import '../Assets/Color-Scheme.svg';
-import '../Assets/Color-Scheme-(1).svg';
-// import PropTypes from "prop-types";
+import "../assets/styles/styles.css";
+import images from '../constants/imagesImports.ts'
 import type { JSX } from "react";
-type TaskInputFormProps ={ searchInput:string, setSearchInput:React.Dispatch<React.SetStateAction<string>> }
+import type { TaskInputFormProps } from '../types/components.d.ts';
 function TaskInputForm({ searchInput, setSearchInput }:TaskInputFormProps):JSX.Element {
     const switchTheme = ():void => {
 
@@ -14,10 +11,10 @@ function TaskInputForm({ searchInput, setSearchInput }:TaskInputFormProps):JSX.E
 
         if (curTheme === "light") {
             document.querySelector("body")!.setAttribute("data-theme", "dark");
-            document.getElementById("toggle")!.setAttribute("src", "/Assets/Color-Scheme-(1).svg");
+            document.getElementById("toggle")!.setAttribute("src", images.toggleLight);
         } else {
             document.querySelector("body")!.setAttribute("data-theme", "light");
-            document.getElementById("toggle")!.setAttribute("src", "/Assets/Color-Scheme.svg");
+            document.getElementById("toggle")!.setAttribute("src", images.toggleDark);
         }
     };
     const searchHandler = (event:React.ChangeEvent<HTMLInputElement>) => {
@@ -34,11 +31,11 @@ function TaskInputForm({ searchInput, setSearchInput }:TaskInputFormProps):JSX.E
                         <input onChange={searchHandler} value={searchInput} type="text" placeholder="Search note..." className='inputElement'/>
 
                         
-                        <img className='searchIcon' alt="" src="/Assets/Vector.svg" />
+                        <img className='searchIcon' alt="" src={images.search} />
                     </div>
                     <div className='colorScheme'>
                         <div className='colorSchemeChild'>
-                            <img id="toggle" className='darkModeToggle'onClick={switchTheme} aria-hidden alt="" src="/Assets/Color-Scheme.svg" />
+                            <img id="toggle" className='darkModeToggle'onClick={switchTheme} aria-hidden alt="" src={images.toggleDark} />
                         </div>
                     </div>
                 </div>

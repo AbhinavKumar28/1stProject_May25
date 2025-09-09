@@ -1,23 +1,13 @@
 import React from "react";
-import "../styles/styles.css";
-
-import '../Assets/arrow-right.png';
+import "../assets/styles/styles.css";
+import images from '../constants/imagesImports.ts'
 import { useState, useEffect } from "react";
-
 import { useNavigate } from "react-router-dom"
 import type {JSX} from "react";
-import AddNewNote from "./addNewNote.tsx";
-type Task = {
-    _id:string,
-    todonote:string,
-    category: string
-}
-type Category = {
-    _id:string,
-    category: string
-}
-type AddNewNoteProps = { tasks:Task[], setTasks:React.Dispatch<React.SetStateAction<Task[]>>}
-function HomeScreen({ tasks, setTasks }:AddNewNoteProps):JSX.Element{
+import type { Task,Category, ComponentProps } from '../types/components.d.ts';
+import componentsImports from '../constants/componentsImports.ts';
+
+function HomePage({ tasks, setTasks }:ComponentProps):JSX.Element{
     const [categories,setCategories]=useState<Category[]>([])
     const [currentCategory, setCurrentCategory] = useState<string>("");
     const navigate = useNavigate();
@@ -50,7 +40,7 @@ function HomeScreen({ tasks, setTasks }:AddNewNoteProps):JSX.Element{
                                 return (
                                     <React.Fragment key={JSON.stringify(td._id)} >
                                          
-                <div className='categoryContainer'><span className='categoryHeading'>{td.category.toUpperCase()}</span><img onClick={() => navigate(`/list/${td.category}/todos`)} className='rightArrowButton' aria-hidden alt="" src="/Assets/arrow-right.png" />
+                <div className='categoryContainer'><span className='categoryHeading'>{td.category.toUpperCase()}</span><img onClick={() => navigate(`/list/${td.category}/todos`)} className='rightArrowButton' aria-hidden alt="" src={images.rightArrow} />
               </div>
                 
            
@@ -101,11 +91,11 @@ function HomeScreen({ tasks, setTasks }:AddNewNoteProps):JSX.Element{
                 <button onSubmit={addCategory'></button>
             </form> */}
                     
-            <AddNewNote tasks={tasks} setTasks={setTasks}/>
+            <componentsImports.AddNewNote tasks={tasks} setTasks={setTasks}/>
             {/* <img className='} aria-hidden alt="" src="/Assets/arrow-right.png" /> */}
                                             
         </div>
     </>
     )
 }
-export default HomeScreen
+export default HomePage

@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/styles.css";
+import "../assets/styles/styles.css";
 import type {JSX} from "react";
 function Heading({ id }: { id?: string|undefined }):JSX.Element {
     return (

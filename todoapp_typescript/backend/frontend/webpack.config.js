@@ -8,12 +8,12 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 export default {
-  entry: './src/components/index.tsx', 
+  entry: './src/index.tsx', 
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/',
-    assetModuleFilename: 'Assets/[name][ext][query]'
+    assetModuleFilename: 'assets/[name][ext][query]'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.png', '.svg'], 

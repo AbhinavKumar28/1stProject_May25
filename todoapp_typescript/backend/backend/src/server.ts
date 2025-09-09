@@ -88,10 +88,10 @@ const init = async () => {
     
     server.route({
         method: 'GET',
-        path: '/Assets/{param*}',
+        path: '/assets/{param*}',
         handler: {
             directory: { 
-                path: Path.join(__dirname, '../../dist/Assets/'), 
+                path: Path.join(__dirname, '../../dist/assets/'), 
                 index: ['index.html']
             }
         }
@@ -293,7 +293,7 @@ const init = async () => {
     
     server.route({
         method: 'POST',
-        path: '/Signup',
+        path: '/signup',
         options: {
             validate: {
             payload: Joi.object({         

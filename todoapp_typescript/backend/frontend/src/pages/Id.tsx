@@ -1,30 +1,11 @@
-import React from "react";
-import TaskInputForm from "./TaskInputForm.tsx";
-import BothTasks from "./BothTask.tsx";
-import Heading from "./heading.tsx";
-import AddNewNote from "./addNewNote.tsx";
-import "../styles/styles.css";
-import '../Assets/Add-button.svg'
+import "../assets/styles/styles.css";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"
-import { useNavigate } from "react-router-dom"
-
-import BackImage from "./BackImage.tsx";
+import type { Task, ComponentProps } from '../types/components.d.ts';
 import type {JSX} from "react";
-type Task = {
-    _id:string,
-    todonote:string,
-    category: string,
-}
-// type AddNewNoteProps = { tasks:Task[], setTasks:React.Dispatch<React.SetStateAction<Task[]>>}
-type BothTasksProps = {
-  tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-};
-
-function Id({ tasks, setTasks }:BothTasksProps):JSX.Element{
+import componentsImports from '../constants/componentsImports.ts';
+function Id({ tasks, setTasks }:ComponentProps):JSX.Element{
     const { id } = useParams();
-    // const [tasks, setTasks] = useState<Task[]>([]);
     const [searchInput, setSearchInput] = useState<string>("");
     const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
     useEffect(()=>{
@@ -36,10 +17,8 @@ function Id({ tasks, setTasks }:BothTasksProps):JSX.Element{
                     });
                     data = await response.json();
                     console.log("hello",data);
-                    // return data
                 }catch (err) {
                     console.error('Error:', err);
-                    // return []
                 }
                 if (data) {
                     setTasks(data);
@@ -51,7 +30,6 @@ function Id({ tasks, setTasks }:BothTasksProps):JSX.Element{
     useEffect(() => {
         let filter:Task[] = [...tasks];
 
-        // console.log("filter", filter);
         if ((searchInput !== "") &&(filter.length!==0)) {
             filter = filter.filter(el => {
 
@@ -61,18 +39,16 @@ function Id({ tasks, setTasks }:BothTasksProps):JSX.Element{
                 return item.includes(searchInput.toLowerCase());
             });
         }
-
-        // console.log("filter1", filter);
-        setFilteredTasks([...filter]);
+             setFilteredTasks([...filter]);
     }, [tasks, searchInput]);
     
     return (
         <>
-                        <Heading id={id}/>
-                        <TaskInputForm searchInput={searchInput} setSearchInput={setSearchInput}/>
-                        <AddNewNote tasks={tasks} setTasks={setTasks}/>
-                        <BothTasks tasks={filteredTasks} setTasks={setTasks}/>
-                        <BackImage />
+                        <componentsImports.Heading id={id}/>
+                        <componentsImports.TaskInputForm searchInput={searchInput} setSearchInput={setSearchInput}/>
+                        <componentsImports.AddNewNote tasks={tasks} setTasks={setTasks}/>
+                        <componentsImports.BothTasks tasks={filteredTasks} setTasks={setTasks}/>
+                        <componentsImports.BackImage />
                         </>
     )
 }

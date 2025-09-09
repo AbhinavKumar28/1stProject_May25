@@ -1,106 +1,29 @@
-import "../styles/styles.css";
-
-import '../Assets/Frame-6.svg';
+import "../assets/styles/styles.css";
+import images from '../constants/imagesImports.ts'
 import Popup from "reactjs-popup";
-// import PropTypes from "prop-types";
 import type {JSX} from "react";
-// import Popy from "../PopUp/PopUp";
 import { useState, useEffect } from "react";
 import React from "react";
-// import { string } from "joi";
-// import type { ObjectId } from "mongodb";
-type Task = {
-    _id: string,
-    todonote: string,
-    category:string
-}
+import type { Task,Category, EditIconProps } from '../types/components.d.ts';
 type category = string
-
-type Category = {
-    _id:string,
-    category: string
-}
-type EditIconProps = {tasks:Task[], setTasks:React.Dispatch<React.SetStateAction<Task[]>>, index:string}
 function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
-
-    // const  = this.props;
-
-    //     const [tasks, setTasks] = useState([]);
     const foundTask = tasks.find(item=>item._id===index)
     const [currentTask, setCurrentTask] = useState<string>(foundTask?foundTask.todonote:"");
-    // const [currentTask, setCurrentTask] = useState("");
-    // const [currentCategory, setCurrentCategory] = useState<string>(foundTask?foundTask.todonote:"");
     const [currentCategory, setCurrentCategory] = useState<category>(foundTask?foundTask.category:"household");
-    // useEffect(()=>{
-    //     categoryToggle(currentCategory)
-    // });
     const [categories,setCategories]=useState<Category[]>([])
-    // const categoryToggle=(category:string):any=>{
-        // let element=document.getElementById("Household")
-        // let element1=document.getElementById("Personal")
-        // let element2=document.getElementById("Work")
-        // if (category==="household"){
-        //     element=document.getElementById("Household")
-        //     element1=document.getElementById("Personal")
-        //     element2=document.getElementById("Work")
-        //     setCurrentCategory("household")
-        // }else if(category==="work"){
-        //     element=document.getElementById("Work")
-        //     element1=document.getElementById("Personal")
-        //     element2=document.getElementById("Household")
-        //     setCurrentCategory("work")
-        // }else{
-        //     element=document.getElementById("Personal")
-        //     element1=document.getElementById("Work")
-        //     element2=document.getElementById("Household")
-        //     setCurrentCategory("personal")
-        // }         
-        // if (element){                       
-        // element.classList.remove(styles.button)
-                                        
-        //                                 element.classList.add(styles.button2)
-        //                                 if (element1 && element2){
-        //                                 element1.classList.remove(styles.button2)
-        //                                 element2.classList.remove(styles.button2)
-                                        
-        //                                 element1.classList.add(styles.button)
-        //                                 element2.classList.add(styles.button)
-                    
-        //                                 }}}
-    
-    // useEffect(() => {
-    //         const showTask = async(): Promise<void> => {
-    //             let data: Task[] = []
-    //             try {
-    //                 const response= await fetch(`http://localhost:3005/todos`,{
-    //                     method:"GET",
-    //                 });
-    //                 data = await response.json();
-    //                 console.log("hello",data);
-    //                 // return data
-    //             }catch (err) {
-    //                 console.error('Error:', err);
-    //                 // return []
-    //             }
-    //             if (data) {
-    //                 setTasks(data);
-    //             }
-    //         }
-    //         showTask()
-    //     }, []);
     const [selectedCategory,setSelectedCategory]=useState("")
         function handleCategoryChange(e:React.ChangeEvent<HTMLSelectElement>){
             setSelectedCategory(e.target.value.toLowerCase())
             setCurrentCategory(e.target.value.toLowerCase())
         }
             const renderCategories=():JSX.Element[]=>{
-                const a:JSX.Element[]= categories.map((cate:Category):JSX.Element => {
+                const categoryElements:JSX.Element[]= categories.map((cate:Category):JSX.Element => {
                                         return (
                                             <React.Fragment key={JSON.stringify(cate._id)} >
                 <option value={cate.category}>{cate.category.toUpperCase()}</option>
                 </React.Fragment>);
                                             })
-                                    return a
+                                    return categoryElements
                     }
          
     const editTask = async():Promise<void> => {
@@ -163,7 +86,7 @@ function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
         <>
             <Popup
                 trigger={
-                    <img alt="" aria-hidden src="/Assets/Frame-6.svg" />
+                    <img alt="" aria-hidden src={images.edit} />
                 }
                 modal
 
