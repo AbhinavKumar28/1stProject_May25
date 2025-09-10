@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import type { Task, ComponentProps } from '../types/components.d.ts';
 import type {JSX} from "react";
 import componentsImports from '../constants/componentsImports.ts';
-import { useEffectToShowTasks, useSearchFunctionality } from "../hooks/useTasks.tsx";
+import { useEffectToShowTasks, useSearchFunctionality } from "../hooks/useTasks.ts";
 function Id({ tasks, setTasks }:ComponentProps):JSX.Element{
     const { id } = useParams();
     const [searchInput, setSearchInput] = useState<string>("");

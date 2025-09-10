@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import type { Category, Task } from "../types/components.d.ts";
+import type { Category, Task } from "../types/components";
 
 export const useEffectToShowCategory = (setCategories:React.Dispatch<React.SetStateAction<Category[]>>)=>{
         useEffect(()=>{

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import type {JSX} from "react";
 import type { Task,Category, ComponentProps } from '../types/components.d.ts';
 import componentsImports from '../constants/componentsImports.ts';
-import { useEffectToShowCategory } from "../hooks/useCategory.tsx";
+import { useEffectToShowCategory } from "../hooks/useCategory.ts";
 
 function HomePage({ tasks, setTasks }:ComponentProps):JSX.Element{
     const [categories,setCategories]=useState<Category[]>([])

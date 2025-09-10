@@ -5,7 +5,7 @@ import type { JSX } from "react";
 import type { Task,Category, ComponentProps } from '../types/components.d.ts';
 import { useState, useEffect } from "react";
 import React from "react";
-import { useEffectToShowCategory } from "../hooks/useCategory.tsx";
+import { useEffectToShowCategory } from "../hooks/useCategory.ts";
 function AddNewNote({ tasks, setTasks }:ComponentProps):JSX.Element {
     const [currentTask, setCurrentTask] = useState("");
     const [categories,setCategories]=useState<Category[]>([])

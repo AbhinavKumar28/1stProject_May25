@@ -5,7 +5,7 @@ import type {JSX} from "react";
 import { useState, useEffect } from "react";
 import React from "react";
 import type { Task,Category, EditIconProps } from '../types/components.d.ts';
-import { useEffectToShowCategory } from "../hooks/useCategory.tsx";
+import { useEffectToShowCategory } from "../hooks/useCategory.ts";
 type category = string
 function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
     const foundTask = tasks.find(item=>item._id===index)

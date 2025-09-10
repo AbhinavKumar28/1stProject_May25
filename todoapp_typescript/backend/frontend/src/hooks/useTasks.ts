@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import type { Task } from "../types/components.d.ts";
+import type { Task } from "../types/components";
 
 export const useEffectToShowTasks = (setTasks:React.Dispatch<React.SetStateAction<Task[]>>,id:string|undefined)=>{
     useEffect(()=>{
