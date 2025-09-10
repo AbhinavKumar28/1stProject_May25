@@ -5,8 +5,8 @@ import type { JSX } from "react";
 import type { Task,Category, ComponentProps } from '../types/components.d.ts';
 import { useState, useEffect } from "react";
 import React from "react";
+import { useEffectToShowCategory } from "../hooks/useCategory.tsx";
 function AddNewNote({ tasks, setTasks }:ComponentProps):JSX.Element {
-;
     const [currentTask, setCurrentTask] = useState("");
     const [categories,setCategories]=useState<Category[]>([])
     const [selectedCategory,setSelectedCategory]=useState("")
@@ -44,28 +44,7 @@ function AddNewNote({ tasks, setTasks }:ComponentProps):JSX.Element {
             setCurrentTask("");
         }
     }
-    useEffect(()=>{
-            const showCategory = async(): Promise<void> => {
-                    let data: Task[] = []
-                    try {
-                        const response= await fetch(`http://localhost:3005/list/categories`,{
-                            method:"GET",
-                        });
-                        data = await response.json();
-                        console.log("hello",data);
-                        // return data
-                    }catch (err) {
-                        console.error('Error:', err);
-                        // return []
-                    }
-                    if (data) {
-                        setCategories(data);
-                    }
-                }
-                showCategory()
-            
-        },[])
-
+    useEffectToShowCategory(setCategories)
     return (
         <>
             <Popup

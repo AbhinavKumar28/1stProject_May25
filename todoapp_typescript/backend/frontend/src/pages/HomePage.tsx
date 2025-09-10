@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import type {JSX} from "react";
 import type { Task,Category, ComponentProps } from '../types/components.d.ts';
 import componentsImports from '../constants/componentsImports.ts';
+import { useEffectToShowCategory } from "../hooks/useCategory.tsx";
 
 function HomePage({ tasks, setTasks }:ComponentProps):JSX.Element{
     const [categories,setCategories]=useState<Category[]>([])
@@ -49,29 +50,7 @@ function HomePage({ tasks, setTasks }:ComponentProps):JSX.Element{
                             })
                     return a
     }
-    
-    useEffect(()=>{
-        const showCategory = async(): Promise<void> => {
-                let data: Task[] = []
-                try {
-                    const response= await fetch(`http://localhost:3005/list/categories`,{
-                        method:"GET",
-                    });
-                    console.log(response)
-                    data = await response.json();
-                    console.log("hello",data);
-                    // return data
-                }catch (err) {
-                    console.error('Error1:', err);
-                    // return []
-                }
-                if (data) {
-                    setCategories(data);
-                }
-            }
-            showCategory()
-        
-    },[])
+    useEffectToShowCategory(setCategories)    
     return (
     <>
         <div className='body'>
