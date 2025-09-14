@@ -10,9 +10,11 @@ import { ObjectId } from "mongodb";
 import JoiImport from 'joi';
 //@ts-ignore
 import joiObjectId from 'joi-objectid';
+import BasicAuth from '@hapi/basic'
 // impor./types/joi-objectid
 import bcrypt from "bcrypt"
 import Path from 'path'
+import * as Boom from '@hapi/boom';
 // const Path = require('path');
 // Mutates Joi to add `objectId` method
 joiObjectId(JoiImport);
@@ -60,8 +62,13 @@ const init = async () => {
     },{
         plugin: Inert,
         options:{}
-}]);
-    
+    }, {
+        plugin:BasicAuth,
+
+    }
+    ]);
+    server.auth.strategy('simple','basic',{validate:validate})
+
     // server.route({
     //     method: 'GET',
     //     path: '/movies',
@@ -339,45 +346,21 @@ const init = async () => {
     
 
     server.route({
-        method: 'POST',
+        method: 'GET',
         path: '/login',
         options: {
-            validate: {
-            payload: Joi.object({         
-                // name:Joi.string().required(),
-                email:Joi.string().required(),
-                password: Joi.string().required()
-                }),
-            },
+            // validate: {
+            // payload: Joi.object({         
+            //     // name:Joi.string().required(),
+            //     email:Joi.string().required(),
+            //     password: Joi.string().required()
+            //     }),
+            // },
+            auth:'simple'
         },
         handler: async (request, h) => {
 
-            const payload = request.payload as {
-                // name:string,
-                email:string,
-                password:string
-            }
-            const saltRounds = 10
-            // type ai=
-            let a={} as {
-                // name:string,
-                email:string,
-                password:string|object
-            }
-            try {
-                const founduserinfo = await request.mongo.db.collection('users').find({ email: payload.email }).toArray()
-                bcrypt.compare(payload.password, founduserinfo[0].password, function(err, result) {
-                        console.log("result",result)
-                    if (result === true){
-                        console.log("login successful",founduserinfo)
-                    }
-                });
-                // return undefined
-                return (founduserinfo[0]!==undefined)?founduserinfo[0]:"No user with this email found"
-            }catch (err){
-                console.error(err)
-                return h.response('Error fetching todos').code(500)
-            }
+            return {"welcome":8}
         }
     });
     
@@ -467,6 +450,39 @@ const init = async () => {
     await server.start();
     console.log('Server running on %s', server.info.uri);
 }
+const validate = async (request:Hapi.Request, username:string,password:string, h:Hapi.ResponseToolkit )=>{
+
+            const payload = request.payload as {
+                // name:string,
+                email:string,
+                password:string
+            }
+            try {
+                let isValid:boolean=false
+                const founduserinfo = await request.mongo.db.collection('users').find({ email: username }).toArray()
+                console.log(founduserinfo[0].password)
+                let credentials:object={}
+                bcrypt.compare(password, founduserinfo[0].password, function(err, result) {
+                        console.log("result",result)
+                        isValid=result
+                    if (result === true){
+                        // console.log("login successful",founduserinfo)
+                        credentials={
+                            id:founduserinfo[0]._id,
+                            name:founduserinfo[0].name,
+                            email:founduserinfo[0].email
+                        }
+                    }else{
+                        throw Boom.unauthorized('invalid password', 'basic');
+                    }
+                });
+                console.log("login successful",founduserinfo)
+                return (founduserinfo[0]!==undefined)?{isValid,credentials}:"No user with this email found"
+            }catch (err){
+                console.error(err)
+                return h.response('Error fetching todos').code(500)
+            }
+        }
 
 init();
 //category no repeat check before making 

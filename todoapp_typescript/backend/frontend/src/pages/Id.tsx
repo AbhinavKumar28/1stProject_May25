@@ -15,7 +15,7 @@ function Id({ tasks, setTasks }:ComponentProps):JSX.Element{
         <>
                         <componentsImports.Heading id={id}/>
                         <componentsImports.TaskInputForm searchInput={searchInput} setSearchInput={setSearchInput}/>
-                        <componentsImports.AddNewNote tasks={tasks} setTasks={setTasks}/>
+                        <componentsImports.AddNewNote tasks={tasks} setTasks={setTasks} id={id}/>
                         <componentsImports.BothTasks tasks={filteredTasks} setTasks={setTasks}/>
                         <componentsImports.BackImage />
                         </>

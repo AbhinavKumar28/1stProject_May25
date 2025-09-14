@@ -102,13 +102,13 @@ body{
 }
 
 .addButtonIcon {
-width: 100%;
-max-width: 100%;
+/* width: 100%;
+max-width: 100%; */
 overflow: hidden;
 height: 50px;
 position: fixed;
 bottom: 40px;
-left: 500px;
+left: 1400px;
 }
 .buttonContainer {
   display: flex;

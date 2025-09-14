@@ -59,7 +59,8 @@ function HomePage({ tasks, setTasks }:ComponentProps):JSX.Element{
 
                         
                 <button onClick={addCategory} className='addButton'>Add </button>
-                        {/* <img className='vectorIcon} alt="" src="/Assets/Vector.svg" /> */}
+                <button onClick={() => navigate(`/login`)} className='addButton'>Login/Signup </button>
+                
                     </div>
             
             <div className='list'>
@@ -70,7 +71,7 @@ function HomePage({ tasks, setTasks }:ComponentProps):JSX.Element{
                 <button onSubmit={addCategory'></button>
             </form> */}
                     
-            <componentsImports.AddNewNote tasks={tasks} setTasks={setTasks}/>
+            <componentsImports.AddNewNote tasks={tasks} setTasks={setTasks} id ="household"/>
             {/* <img className='} aria-hidden alt="" src="/Assets/arrow-right.png" /> */}
                                             
         </div>

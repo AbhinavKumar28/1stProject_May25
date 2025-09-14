@@ -41,21 +41,21 @@ function Login ({ tasks, setTasks }:ComponentProps):JSX.Element{
         }
         
     async function handleLogin():Promise<void>{
-        const a = document.getElementById("login-email")?document.getElementById("login-email"):null
-        if (a instanceof HTMLInputElement){
-            data_login.email= a.value
-        }
-        const c = document.getElementById("password")?document.getElementById("password"):null
-        if (c instanceof HTMLInputElement){
-            data_login.password= c.value
-        }
+        // const a = document.getElementById("login-email")?document.getElementById("login-email"):null
+        // if (a instanceof HTMLInputElement){
+        //     data_login.email= a.value
+        // }
+        // const c = document.getElementById("password")?document.getElementById("password"):null
+        // if (c instanceof HTMLInputElement){
+        //     data_login.password= c.value
+        // }
         try {
             const response= await fetch('http://localhost:3005/login',{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                },
-                body:JSON.stringify(data_login)
+                method:"GET",
+                // headers:{
+                //     "Content-Type":"application/json",
+                // },
+                // body:JSON.stringify(data_login)
             })
             let data_1 = await response.json();
                         console.log("hello",data_1);
@@ -93,12 +93,12 @@ function Login ({ tasks, setTasks }:ComponentProps):JSX.Element{
     
     <div className='newNoteHeading'><h1>Login</h1>
                         </div>
-                        <div className='inputContainer'>
+                        {/* <div className='inputContainer'>
                             <input type="text" placeholder="Email Id" id = "login-email" className='inputElement'/>    
                         </div>
                         <div className='inputContainer'>
                             <input type="text" placeholder="Password" id = "password" className='inputElement'/>
-                        </div>
+                        </div> */}
                         <button
 
                                 className='addButton'

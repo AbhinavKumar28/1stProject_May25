@@ -2,14 +2,14 @@ import "../assets/styles/styles.css";
 import images from '../constants/imagesImports.ts'
 import Popup from "reactjs-popup";
 import type { JSX } from "react";
-import type { Task,Category, ComponentProps } from '../types/components.d.ts';
+import type { Task,Category, AddNewNodeProps } from '../types/components.d.ts';
 import { useState, useEffect } from "react";
 import React from "react";
 import { useEffectToShowCategory } from "../hooks/useCategory.ts";
-function AddNewNote({ tasks, setTasks }:ComponentProps):JSX.Element {
+function AddNewNote({ tasks, setTasks, id }:AddNewNodeProps):JSX.Element {
     const [currentTask, setCurrentTask] = useState("");
     const [categories,setCategories]=useState<Category[]>([])
-    const [selectedCategory,setSelectedCategory]=useState("")
+    const [selectedCategory,setSelectedCategory]=useState(id)
     function handleCategoryChange(e:React.ChangeEvent<HTMLSelectElement>){
         setSelectedCategory(e.target.value.toLowerCase())
     }

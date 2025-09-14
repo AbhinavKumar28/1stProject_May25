@@ -29,3 +29,9 @@ export type ComponentProps = {
     tasks:Task[], 
     setTasks:React.Dispatch<React.SetStateAction<Task[]>>
 }
+
+export type AddNewNodeProps = { 
+    tasks:Task[], 
+    setTasks:React.Dispatch<React.SetStateAction<Task[]>>
+    id :  string|undefined 
+}

@@ -12,7 +12,7 @@ function EditIcon({ tasks, setTasks, index }:EditIconProps):JSX.Element {
     const [currentTask, setCurrentTask] = useState<string>(foundTask?foundTask.todonote:"");
     const [currentCategory, setCurrentCategory] = useState<category>(foundTask?foundTask.category:"household");
     const [categories,setCategories]=useState<Category[]>([])
-    const [selectedCategory,setSelectedCategory]=useState("")
+    const [selectedCategory,setSelectedCategory]=useState<category>(foundTask?foundTask.category:"household");
         function handleCategoryChange(e:React.ChangeEvent<HTMLSelectElement>){
             setSelectedCategory(e.target.value.toLowerCase())
             setCurrentCategory(e.target.value.toLowerCase())
