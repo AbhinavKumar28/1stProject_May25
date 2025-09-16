@@ -1,6 +1,7 @@
 import "../assets/styles/styles.css";
 import images from '../constants/imagesImports.ts'
 import Popup from "reactjs-popup";
+import "../assets/images/frame-6.svg"
 import type {JSX} from "react";
 import { useState, useEffect } from "react";
 import React from "react";

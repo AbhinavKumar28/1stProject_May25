@@ -1,6 +1,9 @@
 import React from "react";
 import "../assets/styles/styles.css";
 import images from '../constants/imagesImports.ts'
+import "../assets/images/color-scheme.svg"
+import "../assets/images/color-scheme-(1).svg"
+import "../assets/images/vector.svg"
 import type { JSX } from "react";
 import type { TaskInputFormProps } from '../types/components.d.ts';
 function TaskInputForm({ searchInput, setSearchInput }:TaskInputFormProps):JSX.Element {

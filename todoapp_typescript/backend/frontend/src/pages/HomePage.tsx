@@ -1,5 +1,6 @@
 import React from "react";
 import "../assets/styles/styles.css";
+import "../assets/images/arrow-right.png"
 import images from '../constants/imagesImports.ts'
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"

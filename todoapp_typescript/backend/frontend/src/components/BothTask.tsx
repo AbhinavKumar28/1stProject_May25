@@ -1,7 +1,7 @@
 import componentsImports from '../constants/componentsImports.ts';
 import "../assets/styles/styles.css";
 import images from '../constants/imagesImports.ts'
-// import '../assets/trash-svgrepo-com-1.svg';
+import '../assets/images/trash-svgrepo-com-1.svg';
 // import PropTypes from "prop-types";
 import React from "react";
 import type {JSX} from "react";

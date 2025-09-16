@@ -1,4 +1,5 @@
 import "../assets/styles/styles.css";
+import "../assets/images/add-button.svg"
 import images from '../constants/imagesImports.ts'
 import Popup from "reactjs-popup";
 import type { JSX } from "react";
@@ -105,3 +106,5 @@ function AddNewNote({ tasks, setTasks, id }:AddNewNodeProps):JSX.Element {
     );
 }
 export default AddNewNote;
+// Install hapi-auth-bearer-token.
+// After successful basic authentication, the server issues a bearer token (e.g., a JWT). The client then sends Authorization: Bearer <token> in the header. hapi-auth-bearer-token extracts the token, and your validate function verifies its validity and extracts user information.
